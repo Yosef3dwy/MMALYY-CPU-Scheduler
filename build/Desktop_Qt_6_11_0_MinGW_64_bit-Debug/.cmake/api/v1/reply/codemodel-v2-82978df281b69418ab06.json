@@ -44,7 +44,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "CPU::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-CPU-Debug-f8946388387efa1bddfc.json",
+					"jsonFile" : "target-CPU-Debug-a441ef969633e1b62c63.json",
 					"name" : "CPU",
 					"projectIndex" : 0
 				},
@@ -68,8 +68,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "E:/!ASU/Spring 26/Operating Systems/Project/CPU/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug",
-		"source" : "E:/!ASU/Spring 26/Operating Systems/Project/CPU"
+		"build" : "C:/Users/hp/MMALYY-CPU-Scheduler/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug",
+		"source" : "C:/Users/hp/MMALYY-CPU-Scheduler"
 	},
 	"version" : 
 	{

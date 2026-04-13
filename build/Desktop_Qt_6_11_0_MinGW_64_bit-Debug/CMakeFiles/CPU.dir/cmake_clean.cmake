@@ -1,4 +1,7 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/CPU_autogen.dir/AutogenUsed.txt"
+  "CMakeFiles/CPU_autogen.dir/ParseCache.txt"
+  "CPU_autogen"
   "CMakeFiles/CPU.dir/CPU_autogen/mocs_compilation.cpp.obj"
   "CMakeFiles/CPU.dir/CPU_autogen/mocs_compilation.cpp.obj.d"
   "CMakeFiles/CPU.dir/ganttchart.cpp.obj"
@@ -12,9 +15,6 @@ file(REMOVE_RECURSE
   "CPU.pdb"
   "CPU_autogen/mocs_compilation.cpp"
   "CPU_autogen/timestamp"
-  "CMakeFiles/CPU_autogen.dir/AutogenUsed.txt"
-  "CMakeFiles/CPU_autogen.dir/ParseCache.txt"
-  "CPU_autogen"
   "libCPU.dll.a"
 )
 

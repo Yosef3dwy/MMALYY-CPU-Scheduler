@@ -52,10 +52,10 @@ RM = C:\Qt\Tools\CMake_64\bin\cmake.exe -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = "E:\!ASU\Spring 26\Operating Systems\Project\CPU"
+CMAKE_SOURCE_DIR = C:\Users\hp\MMALYY-CPU-Scheduler
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = "E:\!ASU\Spring 26\Operating Systems\Project\CPU\build\Desktop_Qt_6_11_0_MinGW_64_bit-Debug"
+CMAKE_BINARY_DIR = C:\Users\hp\MMALYY-CPU-Scheduler\build\Desktop_Qt_6_11_0_MinGW_64_bit-Debug
 
 # Utility rule file for CPU_autogen.
 
@@ -70,9 +70,9 @@ CMakeFiles/CPU_autogen: CPU_autogen/timestamp
 CPU_autogen/timestamp: C:/Qt/6.11.0/mingw_64/bin/moc.exe
 CPU_autogen/timestamp: C:/Qt/6.11.0/mingw_64/bin/uic.exe
 CPU_autogen/timestamp: CMakeFiles/CPU_autogen.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir="E:\!ASU\Spring 26\Operating Systems\Project\CPU\build\Desktop_Qt_6_11_0_MinGW_64_bit-Debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Automatic MOC and UIC for target CPU"
-	C:\Qt\Tools\CMake_64\bin\cmake.exe -E cmake_autogen "E:/!ASU/Spring 26/Operating Systems/Project/CPU/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/CMakeFiles/CPU_autogen.dir/AutogenInfo.json" Debug
-	C:\Qt\Tools\CMake_64\bin\cmake.exe -E touch "E:/!ASU/Spring 26/Operating Systems/Project/CPU/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/CPU_autogen/timestamp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=C:\Users\hp\MMALYY-CPU-Scheduler\build\Desktop_Qt_6_11_0_MinGW_64_bit-Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Automatic MOC and UIC for target CPU"
+	C:\Qt\Tools\CMake_64\bin\cmake.exe -E cmake_autogen C:/Users/hp/MMALYY-CPU-Scheduler/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/CMakeFiles/CPU_autogen.dir/AutogenInfo.json Debug
+	C:\Qt\Tools\CMake_64\bin\cmake.exe -E touch C:/Users/hp/MMALYY-CPU-Scheduler/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/CPU_autogen/timestamp
 
 CPU_autogen: CMakeFiles/CPU_autogen
 CPU_autogen: CPU_autogen/timestamp
@@ -88,6 +88,6 @@ CMakeFiles/CPU_autogen.dir/clean:
 .PHONY : CMakeFiles/CPU_autogen.dir/clean
 
 CMakeFiles/CPU_autogen.dir/depend:
-	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" "E:\!ASU\Spring 26\Operating Systems\Project\CPU" "E:\!ASU\Spring 26\Operating Systems\Project\CPU" "E:\!ASU\Spring 26\Operating Systems\Project\CPU\build\Desktop_Qt_6_11_0_MinGW_64_bit-Debug" "E:\!ASU\Spring 26\Operating Systems\Project\CPU\build\Desktop_Qt_6_11_0_MinGW_64_bit-Debug" "E:\!ASU\Spring 26\Operating Systems\Project\CPU\build\Desktop_Qt_6_11_0_MinGW_64_bit-Debug\CMakeFiles\CPU_autogen.dir\DependInfo.cmake" "--color=$(COLOR)"
+	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\hp\MMALYY-CPU-Scheduler C:\Users\hp\MMALYY-CPU-Scheduler C:\Users\hp\MMALYY-CPU-Scheduler\build\Desktop_Qt_6_11_0_MinGW_64_bit-Debug C:\Users\hp\MMALYY-CPU-Scheduler\build\Desktop_Qt_6_11_0_MinGW_64_bit-Debug C:\Users\hp\MMALYY-CPU-Scheduler\build\Desktop_Qt_6_11_0_MinGW_64_bit-Debug\CMakeFiles\CPU_autogen.dir\DependInfo.cmake "--color=$(COLOR)"
 .PHONY : CMakeFiles/CPU_autogen.dir/depend
 

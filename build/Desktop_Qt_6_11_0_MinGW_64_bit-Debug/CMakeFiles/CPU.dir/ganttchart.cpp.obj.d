@@ -1,6 +1,6 @@
 CMakeFiles/CPU.dir/ganttchart.cpp.obj: \
- E:\!ASU\Spring\ 26\Operating\ Systems\Project\CPU\ganttchart.cpp \
- E:\!ASU\Spring\ 26\Operating\ Systems\Project\CPU\ganttchart.h \
+ C:\Users\hp\MMALYY-CPU-Scheduler\ganttchart.cpp \
+ C:\Users\hp\MMALYY-CPU-Scheduler\ganttchart.h \
  C:/Qt/6.11.0/mingw_64/include/QtWidgets/QWidget \
  C:/Qt/6.11.0/mingw_64/include/QtWidgets/qwidget.h \
  C:/Qt/6.11.0/mingw_64/include/QtWidgets/qtwidgetsglobal.h \

@@ -55,7 +55,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "e:/!ASU/Spring 26/Operating Systems/Project/CPU/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug"
+			"value" : "c:/Users/hp/MMALYY-CPU-Scheduler/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -467,7 +467,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "E:/!ASU/Spring 26/Operating Systems/Project/CPU/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/CMakeFiles/pkgRedirects"
+			"value" : "C:/Users/hp/MMALYY-CPU-Scheduler/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/CMakeFiles/pkgRedirects"
 		},
 		{
 			"name" : "CMAKE_GENERATOR",
@@ -551,7 +551,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "E:/!ASU/Spring 26/Operating Systems/Project/CPU"
+			"value" : "C:/Users/hp/MMALYY-CPU-Scheduler"
 		},
 		{
 			"name" : "CMAKE_INSTALL_BINDIR",
@@ -1051,7 +1051,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "E:/!ASU/Spring 26/Operating Systems/Project/CPU/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/.qtcreator/cmake-helper/qtcreator-project.cmake"
+			"value" : "C:/Users/hp/MMALYY-CPU-Scheduler/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/.qtcreator/cmake-helper/qtcreator-project.cmake"
 		},
 		{
 			"name" : "CMAKE_PROJECT_NAME",
@@ -1527,7 +1527,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "E:/!ASU/Spring 26/Operating Systems/Project/CPU/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug"
+			"value" : "C:/Users/hp/MMALYY-CPU-Scheduler/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug"
 		},
 		{
 			"name" : "CPU_IS_TOP_LEVEL",
@@ -1551,7 +1551,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "E:/!ASU/Spring 26/Operating Systems/Project/CPU"
+			"value" : "C:/Users/hp/MMALYY-CPU-Scheduler"
 		},
 		{
 			"name" : "FIND_PACKAGE_MESSAGE_DETAILS_Threads",
@@ -1587,7 +1587,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "E:/!ASU/Spring 26/Operating Systems/Project/CPU/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/.qtcreator/cmake-helper"
+			"value" : "C:/Users/hp/MMALYY-CPU-Scheduler/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/.qtcreator/cmake-helper"
 		},
 		{
 			"name" : "QT_ADDITIONAL_HOST_PACKAGES_PREFIX_PATH",

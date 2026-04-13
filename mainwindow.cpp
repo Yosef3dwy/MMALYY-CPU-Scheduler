@@ -110,77 +110,88 @@ void MainWindow::on_btn_reset_clicked() {
     ui->btn_pause->setEnabled(false);
 }
 
+//live mode
 void MainWindow::runStep() {
 
-    currentTime = currentTime + 0.1f;
-    currentTime = r1(currentTime);
+    currentTime = r1(currentTime+0.1f);
 
     for (int i = 0; i < (int)processes.size(); i++) {
-
-        if (processes[i].status == "Waiting" &&
-            processes[i].arrival <= currentTime) {
-
+        // job queue -> ready queue
+        if (processes[i].status == "Waiting" && processes[i].arrival <= currentTime) {
+             processes[i].status = "Ready";
+        if (ui->rb_FCFS->isChecked())
             readyQueue.push(i);
-            processes[i].status = "Ready";
         }
     }
 
-    if (currentIdx == -1 && !readyQueue.empty()) {
+        //waiting in ready queue -> running
+        if (currentIdx == -1) {
+            //FCFS logic
+            if (ui->rb_FCFS->isChecked()) {
+                if (!readyQueue.empty()) {
+                    currentIdx = readyQueue.front();
+                    readyQueue.pop();
+                    processes[currentIdx].status = "Running";
+                    processes[currentIdx].actualStart = currentTime;
+                }
+            }
 
-        currentIdx = readyQueue.front();
-        readyQueue.pop();
+            //SJF logic
+            else if (ui->rb_SJF->isChecked()) {
+            //choose best (least) burst time
+                int bestIdx = -1;
+                for (int j = 0; j < (int)processes.size(); j++) {
+                    if (processes[j].status == "Ready") {
+                        if (bestIdx == -1
+                            || processes[j].burst < processes[bestIdx].burst
+                            || (processes[j].burst == processes[bestIdx].burst
+                                && processes[j].arrival < processes[bestIdx].arrival))
+                            bestIdx = j;
+                    }
+                }
+                //have chosen, now run process with least burst time
+                if (bestIdx != -1) {
+                    currentIdx = bestIdx;
+                    processes[currentIdx].status = "Running";
+                    processes[currentIdx].actualStart = currentTime;
+                }
+            }
 
-        processes[currentIdx].status = "Running";
-        processes[currentIdx].actualStart = currentTime;
-    }
-
-    if (currentIdx != -1) {
-
-        processes[currentIdx].remaining -= 0.1f;
-
-        if (processes[currentIdx].remaining <= 0.0001f) {
-
-            processes[currentIdx].remaining = 0;
-
-            float exactFinish =
-                processes[currentIdx].actualStart +
-                processes[currentIdx].burst;
-
-            processes[currentIdx].completion = r1(exactFinish);
-
-            processes[currentIdx].tat =
-                processes[currentIdx].completion - processes[currentIdx].arrival;
-
-            processes[currentIdx].wait =
-                processes[currentIdx].tat - processes[currentIdx].burst;
-
-            processes[currentIdx].status = "Completed";
-
-            ganttChart->addSegment(
-                processes[currentIdx].id,
-                r1(processes[currentIdx].actualStart),
-                processes[currentIdx].completion
-                );
-
-            currentIdx = -1;
         }
-    }
+
+        //process is now running
+        if (currentIdx != -1) {
+            processes[currentIdx].remaining -= 0.1f;
+            if (processes[currentIdx].remaining <= 0.0001f) {
+                processes[currentIdx].remaining = 0;
+                float exactFinish = processes[currentIdx].actualStart +
+                                    processes[currentIdx].burst;
+                processes[currentIdx].completion = r1(exactFinish);
+                processes[currentIdx].tat  =
+                    processes[currentIdx].completion - processes[currentIdx].arrival;
+                processes[currentIdx].wait =
+                    processes[currentIdx].tat - processes[currentIdx].burst;
+                processes[currentIdx].status = "Completed";
+                ganttChart->addSegment(processes[currentIdx].id,
+                                       r1(processes[currentIdx].actualStart),
+                                       processes[currentIdx].completion);
+                currentIdx = -1;
+            }
+        }
 }
 
 void MainWindow::timerTick() {
 
-    if (ui->rb_FCFS->isChecked()) {
+    if (ui->rb_FCFS->isChecked() || ui->rb_SJF->isChecked())
         runStep();
-    }
 
     updateTable();
     ganttChart->update();
 
     bool done = true;
 
-    if (processes.size() == 0) {
+    if (processes.size() == 0)
         done = false;
-    }
 
     for (int i = 0; i < (int)processes.size(); i++) {
 
@@ -202,31 +213,63 @@ void MainWindow::timerTick() {
     }
 }
 
+//non-live mode
 void MainWindow::runBatch() {
-
-    while (true) {
-
-        if (ui->rb_FCFS->isChecked()) {
-            runStep();
+    //SJF logic
+    if (ui->rb_SJF->isChecked()) {
+        JobQueue jobQueue;
+        ReadyQueue_SJF sjfReadyQueue;
+        for (auto& p : processes)
+            jobQueue.push(p);
+        float time = 0; //suppose it's current time
+        // outer loop: while completed processes < original size of processes
+        while (!jobQueue.empty() || !sjfReadyQueue.empty()) {
+            while (!jobQueue.empty() && jobQueue.top().arrival <= time) {
+                sjfReadyQueue.push(jobQueue.top());
+                jobQueue.pop();
+            }
+            //CPU idle, move on to next arrived process
+            if (sjfReadyQueue.empty()) {
+                time = jobQueue.top().arrival;
+                continue;
+            }
+            //running process
+            Process p = sjfReadyQueue.top();
+            sjfReadyQueue.pop();
+            p.actualStart  = time;
+            p.completion   = r1(time + p.burst);
+            p.tat          = p.completion - p.arrival;
+            p.wait         = p.tat - p.burst;
+            time = p.completion; //update current time to proceed
+            for (auto& vp : processes) { //p: SJFReadyQueue, update processes vector to reflect on GUI
+                if (vp.id == p.id) {
+                    vp = p;
+                    vp.status    = "Completed";
+                    vp.remaining = 0;
+                    break;
+                }
+            }
+            ganttChart->addSegment(p.id, p.actualStart, p.completion);
         }
+    }
 
+    //FCFS logic
+    else if (ui->rb_FCFS->isChecked()){
+    while (true) {
+        runStep();
         bool done = true;
-
         if (processes.size() == 0) {
             done = false;
         }
-
         for (int i = 0; i < (int)processes.size(); i++) {
-
             if (processes[i].status != "Completed") {
                 done = false;
                 break;
             }
         }
-
-        if (done == true) {
+        if (done == true)
             break;
-        }
+    }
     }
 
     timer->stop();
@@ -239,6 +282,7 @@ void MainWindow::runBatch() {
     ganttChart->update();
     calculateAverages();
 }
+
 
 void MainWindow::updateTable() {
 

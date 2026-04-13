@@ -359,7 +359,7 @@
 			[
 				{
 					"backtrace" : 0,
-					"path" : "E:/!ASU/Spring 26/Operating Systems/Project/CPU/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/CPU_autogen/include"
+					"path" : "C:/Users/hp/MMALYY-CPU-Scheduler/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/CPU_autogen/include"
 				},
 				{
 					"backtrace" : 13,
@@ -409,11 +409,11 @@
 	"dependencies" : 
 	[
 		{
-			"id" : "CPU_autogen_timestamp_deps::@6890427a1f51a3e7e1df"
-		},
-		{
 			"backtrace" : 0,
 			"id" : "CPU_autogen::@6890427a1f51a3e7e1df"
+		},
+		{
+			"id" : "CPU_autogen_timestamp_deps::@6890427a1f51a3e7e1df"
 		}
 	],
 	"id" : "CPU::@6890427a1f51a3e7e1df",

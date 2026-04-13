@@ -6,8 +6,9 @@ GanttChart::GanttChart(QWidget *parent) : QWidget(parent) {
     setMinimumHeight(100);
 }
 
-void GanttChart::addSegment(int pid, int burst, int start) {
-    int end = start + burst;
+//I have changed the data type of burst, start to float to match function definition
+//notice that addSegment in .h file is (int pid, float start, float end)
+void GanttChart::addSegment(int pid, float start, float end) {
     segments.append({pid, start, end});
     if (end > maxTime) maxTime = end;
     update();

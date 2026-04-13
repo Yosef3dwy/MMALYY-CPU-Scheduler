@@ -1,6 +1,6 @@
 CMakeFiles/CPU.dir/main.cpp.obj: \
- E:\!ASU\Spring\ 26\Operating\ Systems\Project\CPU\main.cpp \
- E:\!ASU\Spring\ 26\Operating\ Systems\Project\CPU\mainwindow.h \
+ C:\Users\hp\MMALYY-CPU-Scheduler\main.cpp \
+ C:\Users\hp\MMALYY-CPU-Scheduler\mainwindow.h \
  C:/Qt/6.11.0/mingw_64/include/QtWidgets/QMainWindow \
  C:/Qt/6.11.0/mingw_64/include/QtWidgets/qmainwindow.h \
  C:/Qt/6.11.0/mingw_64/include/QtWidgets/qtwidgetsglobal.h \

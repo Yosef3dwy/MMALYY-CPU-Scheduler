@@ -52,10 +52,10 @@ RM = C:\Qt\Tools\CMake_64\bin\cmake.exe -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = "E:\!ASU\Spring 26\Operating Systems\Project\CPU"
+CMAKE_SOURCE_DIR = C:\Users\hp\MMALYY-CPU-Scheduler
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = "E:\!ASU\Spring 26\Operating Systems\Project\CPU\build\Desktop_Qt_6_11_0_MinGW_64_bit-Debug"
+CMAKE_BINARY_DIR = C:\Users\hp\MMALYY-CPU-Scheduler\build\Desktop_Qt_6_11_0_MinGW_64_bit-Debug
 
 # Utility rule file for CPU_autogen_timestamp_deps.
 
@@ -77,6 +77,6 @@ CMakeFiles/CPU_autogen_timestamp_deps.dir/clean:
 .PHONY : CMakeFiles/CPU_autogen_timestamp_deps.dir/clean
 
 CMakeFiles/CPU_autogen_timestamp_deps.dir/depend:
-	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" "E:\!ASU\Spring 26\Operating Systems\Project\CPU" "E:\!ASU\Spring 26\Operating Systems\Project\CPU" "E:\!ASU\Spring 26\Operating Systems\Project\CPU\build\Desktop_Qt_6_11_0_MinGW_64_bit-Debug" "E:\!ASU\Spring 26\Operating Systems\Project\CPU\build\Desktop_Qt_6_11_0_MinGW_64_bit-Debug" "E:\!ASU\Spring 26\Operating Systems\Project\CPU\build\Desktop_Qt_6_11_0_MinGW_64_bit-Debug\CMakeFiles\CPU_autogen_timestamp_deps.dir\DependInfo.cmake" "--color=$(COLOR)"
+	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\hp\MMALYY-CPU-Scheduler C:\Users\hp\MMALYY-CPU-Scheduler C:\Users\hp\MMALYY-CPU-Scheduler\build\Desktop_Qt_6_11_0_MinGW_64_bit-Debug C:\Users\hp\MMALYY-CPU-Scheduler\build\Desktop_Qt_6_11_0_MinGW_64_bit-Debug C:\Users\hp\MMALYY-CPU-Scheduler\build\Desktop_Qt_6_11_0_MinGW_64_bit-Debug\CMakeFiles\CPU_autogen_timestamp_deps.dir\DependInfo.cmake "--color=$(COLOR)"
 .PHONY : CMakeFiles/CPU_autogen_timestamp_deps.dir/depend
 

@@ -23,6 +23,25 @@ struct Process {
     QString status = "Waiting";
 };
 
+//comparators needed for SJF logic
+struct CompareArrival {
+    bool operator()(const Process& a, const Process& b) {
+        return a.arrival > b.arrival; //odrder based on arrival time (ascending)
+    }
+};
+
+struct CompareBurst {
+    bool operator()(const Process& a, const Process& b) {
+        if (a.burst == b.burst)
+            return a.arrival > b.arrival; //if both arrived at same time: FCFS
+        return a.burst > b.burst; //ordered based on bust time (ascending)
+    }
+};
+//customize priority queue based on SJF logic
+//arguments: element type, container, comparator
+using JobQueue   = std::priority_queue<Process, std::vector<Process>, CompareArrival>;
+using ReadyQueue_SJF = std::priority_queue<Process, std::vector<Process>, CompareBurst>;
+
 class GanttChart;
 
 class MainWindow : public QMainWindow {
@@ -41,7 +60,7 @@ private slots:
     void updateSchedulerVisibility();
 
 private:
-    void runStep();
+    void runStep(); // for FCFS & SJF
     void updateTable();
     void calculateAverages();
     void runBatch();
@@ -51,8 +70,8 @@ private:
 
     Ui::MainWindow *ui;
     QTimer *timer;
-    std::vector<Process> processes;
-    std::queue<int> readyQueue;
+    std::vector<Process> processes; //used by FCFS and SJF also
+    std::queue<int> readyQueue; // for FCFS
     int currentIdx = -1;
     float currentTime = 0.0f;
     int processCounter = 0;

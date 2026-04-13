@@ -1,20 +1,20 @@
 {
 	"AUTOGEN_COMMAND_LINE_LENGTH_MAX" : 32000,
-	"BUILD_DIR" : "E:/!ASU/Spring 26/Operating Systems/Project/CPU/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/CPU_autogen",
-	"CMAKE_BINARY_DIR" : "E:/!ASU/Spring 26/Operating Systems/Project/CPU/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug",
-	"CMAKE_CURRENT_BINARY_DIR" : "E:/!ASU/Spring 26/Operating Systems/Project/CPU/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug",
-	"CMAKE_CURRENT_SOURCE_DIR" : "E:/!ASU/Spring 26/Operating Systems/Project/CPU",
+	"BUILD_DIR" : "C:/Users/hp/MMALYY-CPU-Scheduler/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/CPU_autogen",
+	"CMAKE_BINARY_DIR" : "C:/Users/hp/MMALYY-CPU-Scheduler/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug",
+	"CMAKE_CURRENT_BINARY_DIR" : "C:/Users/hp/MMALYY-CPU-Scheduler/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug",
+	"CMAKE_CURRENT_SOURCE_DIR" : "C:/Users/hp/MMALYY-CPU-Scheduler",
 	"CMAKE_EXECUTABLE" : "C:/Qt/Tools/CMake_64/bin/cmake.exe",
 	"CMAKE_LIST_FILES" : 
 	[
-		"E:/!ASU/Spring 26/Operating Systems/Project/CPU/CMakeLists.txt",
-		"E:/!ASU/Spring 26/Operating Systems/Project/CPU/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/.qtcreator/cmake-helper/qtcreator-project.cmake",
-		"E:/!ASU/Spring 26/Operating Systems/Project/CPU/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/.qtcreator/cmake-helper/package-manager.cmake",
+		"C:/Users/hp/MMALYY-CPU-Scheduler/CMakeLists.txt",
+		"C:/Users/hp/MMALYY-CPU-Scheduler/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/.qtcreator/cmake-helper/qtcreator-project.cmake",
+		"C:/Users/hp/MMALYY-CPU-Scheduler/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/.qtcreator/cmake-helper/package-manager.cmake",
 		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeDetermineSystem.cmake",
 		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeSystem.cmake.in",
-		"E:/!ASU/Spring 26/Operating Systems/Project/CPU/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/CMakeFiles/3.30.5/CMakeSystem.cmake",
+		"C:/Users/hp/MMALYY-CPU-Scheduler/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/CMakeFiles/3.30.5/CMakeSystem.cmake",
 		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeMinGWFindMake.cmake",
-		"E:/!ASU/Spring 26/Operating Systems/Project/CPU/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/.qtcreator/cmake-helper/maintenance_tool_provider.cmake",
+		"C:/Users/hp/MMALYY-CPU-Scheduler/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/.qtcreator/cmake-helper/maintenance_tool_provider.cmake",
 		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeSystemSpecificInitialize.cmake",
 		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/Platform/Windows-Initialize.cmake",
 		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeDetermineCXXCompiler.cmake",
@@ -67,7 +67,7 @@
 		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeFindBinUtils.cmake",
 		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/Compiler/GNU-FindBinUtils.cmake",
 		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeCXXCompiler.cmake.in",
-		"E:/!ASU/Spring 26/Operating Systems/Project/CPU/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/CMakeFiles/3.30.5/CMakeCXXCompiler.cmake",
+		"C:/Users/hp/MMALYY-CPU-Scheduler/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/CMakeFiles/3.30.5/CMakeCXXCompiler.cmake",
 		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeSystemSpecificInformation.cmake",
 		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeGenericSystem.cmake",
 		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeInitializeConfigs.cmake",
@@ -82,7 +82,7 @@
 		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/Platform/Windows-GNU.cmake",
 		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeDetermineRCCompiler.cmake",
 		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeRCCompiler.cmake.in",
-		"E:/!ASU/Spring 26/Operating Systems/Project/CPU/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/CMakeFiles/3.30.5/CMakeRCCompiler.cmake",
+		"C:/Users/hp/MMALYY-CPU-Scheduler/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/CMakeFiles/3.30.5/CMakeRCCompiler.cmake",
 		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeRCInformation.cmake",
 		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/Platform/Windows-windres.cmake",
 		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeTestRCCompiler.cmake",
@@ -99,7 +99,7 @@
 		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeDetermineCompilerSupport.cmake",
 		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/Internal/FeatureTesting.cmake",
 		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeCXXCompiler.cmake.in",
-		"E:/!ASU/Spring 26/Operating Systems/Project/CPU/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/CMakeFiles/3.30.5/CMakeCXXCompiler.cmake",
+		"C:/Users/hp/MMALYY-CPU-Scheduler/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/CMakeFiles/3.30.5/CMakeCXXCompiler.cmake",
 		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/Platform/Windows-GNU-CXX-ABI.cmake",
 		"C:/Qt/6.11.0/mingw_64/lib/cmake/Qt6/Qt6ConfigVersion.cmake",
 		"C:/Qt/6.11.0/mingw_64/lib/cmake/Qt6/Qt6ConfigVersionImpl.cmake",
@@ -397,28 +397,28 @@
 		"C:/Qt/6.11.0/mingw_64/lib/cmake/Qt6/Qt6Dependencies.cmake",
 		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/GNUInstallDirs.cmake"
 	],
-	"CMAKE_SOURCE_DIR" : "E:/!ASU/Spring 26/Operating Systems/Project/CPU",
+	"CMAKE_SOURCE_DIR" : "C:/Users/hp/MMALYY-CPU-Scheduler",
 	"CROSS_CONFIG" : false,
-	"DEP_FILE" : "E:/!ASU/Spring 26/Operating Systems/Project/CPU/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/CPU_autogen/deps",
+	"DEP_FILE" : "C:/Users/hp/MMALYY-CPU-Scheduler/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/CPU_autogen/deps",
 	"DEP_FILE_RULE_NAME" : "CPU_autogen/timestamp",
 	"HEADERS" : 
 	[
 		[
-			"E:/!ASU/Spring 26/Operating Systems/Project/CPU/ganttchart.h",
+			"C:/Users/hp/MMALYY-CPU-Scheduler/ganttchart.h",
 			"MU",
 			"EWIEGA46WW/moc_ganttchart.cpp",
 			null
 		],
 		[
-			"E:/!ASU/Spring 26/Operating Systems/Project/CPU/mainwindow.h",
+			"C:/Users/hp/MMALYY-CPU-Scheduler/mainwindow.h",
 			"MU",
 			"EWIEGA46WW/moc_mainwindow.cpp",
 			null
 		]
 	],
 	"HEADER_EXTENSIONS" : [ "h", "hh", "h++", "hm", "hpp", "hxx", "in", "txx" ],
-	"INCLUDE_DIR" : "E:/!ASU/Spring 26/Operating Systems/Project/CPU/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/CPU_autogen/include",
-	"MOC_COMPILATION_FILE" : "E:/!ASU/Spring 26/Operating Systems/Project/CPU/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/CPU_autogen/mocs_compilation.cpp",
+	"INCLUDE_DIR" : "C:/Users/hp/MMALYY-CPU-Scheduler/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/CPU_autogen/include",
+	"MOC_COMPILATION_FILE" : "C:/Users/hp/MMALYY-CPU-Scheduler/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/CPU_autogen/mocs_compilation.cpp",
 	"MOC_DEFINITIONS" : 
 	[
 		"MINGW_HAS_SECURE_API=1",
@@ -475,34 +475,22 @@
 		"-c",
 		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeCXXCompilerABI.cpp"
 	],
-	"MOC_PREDEFS_FILE" : "E:/!ASU/Spring 26/Operating Systems/Project/CPU/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/CPU_autogen/moc_predefs.h",
+	"MOC_PREDEFS_FILE" : "C:/Users/hp/MMALYY-CPU-Scheduler/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/CPU_autogen/moc_predefs.h",
 	"MOC_RELAXED_MODE" : false,
 	"MOC_SKIP" : [],
 	"MULTI_CONFIG" : false,
-	"PARALLEL" : 8,
-	"PARSE_CACHE_FILE" : "E:/!ASU/Spring 26/Operating Systems/Project/CPU/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/CMakeFiles/CPU_autogen.dir/ParseCache.txt",
+	"PARALLEL" : 4,
+	"PARSE_CACHE_FILE" : "C:/Users/hp/MMALYY-CPU-Scheduler/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/CMakeFiles/CPU_autogen.dir/ParseCache.txt",
 	"QT_MOC_EXECUTABLE" : "C:/Qt/6.11.0/mingw_64/bin/moc.exe",
 	"QT_UIC_EXECUTABLE" : "C:/Qt/6.11.0/mingw_64/bin/uic.exe",
 	"QT_VERSION_MAJOR" : 6,
 	"QT_VERSION_MINOR" : 11,
-	"SETTINGS_FILE" : "E:/!ASU/Spring 26/Operating Systems/Project/CPU/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/CMakeFiles/CPU_autogen.dir/AutogenUsed.txt",
+	"SETTINGS_FILE" : "C:/Users/hp/MMALYY-CPU-Scheduler/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/CMakeFiles/CPU_autogen.dir/AutogenUsed.txt",
 	"SOURCES" : 
 	[
-		[
-			"E:/!ASU/Spring 26/Operating Systems/Project/CPU/ganttchart.cpp",
-			"MU",
-			null
-		],
-		[
-			"E:/!ASU/Spring 26/Operating Systems/Project/CPU/main.cpp",
-			"MU",
-			null
-		],
-		[
-			"E:/!ASU/Spring 26/Operating Systems/Project/CPU/mainwindow.cpp",
-			"MU",
-			null
-		]
+		[ "C:/Users/hp/MMALYY-CPU-Scheduler/ganttchart.cpp", "MU", null ],
+		[ "C:/Users/hp/MMALYY-CPU-Scheduler/main.cpp", "MU", null ],
+		[ "C:/Users/hp/MMALYY-CPU-Scheduler/mainwindow.cpp", "MU", null ]
 	],
 	"UIC_OPTIONS" : [],
 	"UIC_SEARCH_PATHS" : [],

@@ -1,6 +1,6 @@
 CMakeFiles/CPU.dir/mainwindow.cpp.obj: \
- E:\!ASU\Spring\ 26\Operating\ Systems\Project\CPU\mainwindow.cpp \
- E:\!ASU\Spring\ 26\Operating\ Systems\Project\CPU\mainwindow.h \
+ C:\Users\hp\MMALYY-CPU-Scheduler\mainwindow.cpp \
+ C:\Users\hp\MMALYY-CPU-Scheduler\mainwindow.h \
  C:/Qt/6.11.0/mingw_64/include/QtWidgets/QMainWindow \
  C:/Qt/6.11.0/mingw_64/include/QtWidgets/qmainwindow.h \
  C:/Qt/6.11.0/mingw_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -398,7 +398,7 @@ CMakeFiles/CPU.dir/mainwindow.cpp.obj: \
  C:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/deque.tcc \
  C:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_queue.h \
  C:/Qt/6.11.0/mingw_64/include/QtCore/QString \
- E:/!ASU/Spring\ 26/Operating\ Systems/Project/CPU/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/CPU_autogen/include/ui_mainwindow.h \
+ C:/Users/hp/MMALYY-CPU-Scheduler/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/CPU_autogen/include/ui_mainwindow.h \
  C:/Qt/6.11.0/mingw_64/include/QtCore/QVariant \
  C:/Qt/6.11.0/mingw_64/include/QtGui/QIcon \
  C:/Qt/6.11.0/mingw_64/include/QtWidgets/QApplication \
@@ -462,7 +462,7 @@ CMakeFiles/CPU.dir/mainwindow.cpp.obj: \
  C:/Qt/6.11.0/mingw_64/include/QtWidgets/qtableview.h \
  C:/Qt/6.11.0/mingw_64/include/QtWidgets/QVBoxLayout \
  C:/Qt/6.11.0/mingw_64/include/QtWidgets/QWidget \
- E:\!ASU\Spring\ 26\Operating\ Systems\Project\CPU\ganttchart.h \
+ C:\Users\hp\MMALYY-CPU-Scheduler\ganttchart.h \
  C:/Qt/6.11.0/mingw_64/include/QtWidgets/QWidget \
  C:/Qt/6.11.0/mingw_64/include/QtCore/QVector \
  C:/Qt/6.11.0/mingw_64/include/QtCore/qvector.h \
@@ -470,7 +470,4 @@ CMakeFiles/CPU.dir/mainwindow.cpp.obj: \
  C:/Qt/6.11.0/mingw_64/include/QtWidgets/qmessagebox.h \
  C:/Qt/6.11.0/mingw_64/include/QtWidgets/qdialog.h \
  C:/Qt/6.11.0/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
- C:/Qt/6.11.0/mingw_64/include/QtWidgets/QAbstractItemView \
- C:/Qt/6.11.0/mingw_64/include/QtCore/QDateTime \
- C:/Qt/6.11.0/mingw_64/include/QtCore/qdatetime.h \
- C:/Qt/6.11.0/mingw_64/include/QtCore/qcalendar.h
+ C:/Qt/6.11.0/mingw_64/include/QtWidgets/QAbstractItemView
