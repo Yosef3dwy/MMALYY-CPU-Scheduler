@@ -5,17 +5,19 @@
 #include <QAbstractItemView>
 #include <cmath>
 
-float r1(float x) {
+// Rounds a floating-point number to 1 decimal place
+// Used to avoid precision issues during simulation time updates
+float r1(float x) { 
     return std::round(x * 10.0f) / 10.0f;
 }
-
+// Initializes UI components, timer, and default states
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
 
     ui->setupUi(this);
 
     timer = new QTimer(this);
-    connect(timer, &QTimer::timeout, this, &MainWindow::timerTick);
+    connect(timer, &QTimer::timeout, this, &MainWindow::timerTick); // connect the timer with timertick so when call timer automaticaly go to timertick
 
     ganttChart = new GanttChart(this);
     ui->scrollArea_gantt->setWidget(ganttChart);
@@ -28,7 +30,7 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow() {
     delete ui;
 }
-
+// button add
 void MainWindow::on_btn_addProcess_clicked() {
 
     float burst = ui->spinBox_burstTime->value();
@@ -57,7 +59,7 @@ void MainWindow::on_btn_addProcess_clicked() {
 
     updateTable();
 }
-
+// button start
 void MainWindow::on_btn_start_clicked() {
 
     if (processes.size() == 0) {
@@ -71,12 +73,12 @@ void MainWindow::on_btn_start_clicked() {
     ui->btn_pause->setEnabled(true);
 
     if (ui->rb_modeExistingOnly->isChecked()) {
-        runBatch();
+        runBatch(); 
     } else {
-        timer->start(100);
+        timer->start(100); // automatically call timertick
     }
 }
-
+// button pause
 void MainWindow::on_btn_pause_clicked() {
 
     timer->stop();
@@ -85,7 +87,7 @@ void MainWindow::on_btn_pause_clicked() {
     ui->btn_start->setEnabled(true);
     ui->btn_pause->setEnabled(false);
 }
-
+// button reset
 void MainWindow::on_btn_reset_clicked() {
 
     timer->stop();
@@ -110,7 +112,7 @@ void MainWindow::on_btn_reset_clicked() {
     ui->btn_pause->setEnabled(false);
 }
 
-//live mode
+// FCFS & SJF algorithm 
 void MainWindow::runStep() {
 
     for (int i = 0; i < (int)processes.size(); i++) {
@@ -161,9 +163,9 @@ void MainWindow::runStep() {
             processes[currentIdx].remaining -= 0.1f;
             if (processes[currentIdx].remaining <= 0.0001f) {
                 processes[currentIdx].remaining = 0;
-                float exactFinish = processes[currentIdx].actualStart +
+                float exactFinish = processes[currentIdx].actualStart + 
                                     processes[currentIdx].burst;
-                processes[currentIdx].completion = r1(exactFinish);
+                processes[currentIdx].completion = r1(exactFinish); //to make no decimal like 9.9 in ganttchart
                 processes[currentIdx].tat  =
                     processes[currentIdx].completion - processes[currentIdx].arrival;
                 processes[currentIdx].wait =
@@ -178,7 +180,9 @@ void MainWindow::runStep() {
     // update time after check arrivals
     currentTime = r1(currentTime+0.1f); 
 }
-
+// live mode
+// Called automatically every timer interval
+// Drives step-by-step simulation
 void MainWindow::timerTick() {
 
     if (ui->rb_FCFS->isChecked() || ui->rb_SJF->isChecked())
@@ -189,7 +193,7 @@ void MainWindow::timerTick() {
 
     bool done = true;
 
-    if (processes.size() == 0)
+    if (processes.size() == 0) //Race condition during Reset
         done = false;
 
     for (int i = 0; i < (int)processes.size(); i++) {
@@ -254,7 +258,7 @@ void MainWindow::runBatch() {
 
     //FCFS logic
     else if (ui->rb_FCFS->isChecked()){
-    while (true) {
+    while (true) { // here we need while as we don't have updates it work untill the processes  was added are finished
         runStep();
         bool done = true;
         if (processes.size() == 0) {
@@ -282,7 +286,7 @@ void MainWindow::runBatch() {
     calculateAverages();
 }
 
-
+// Updates process table with current simulation state
 void MainWindow::updateTable() {
 
     ui->tableWidget_queue->setRowCount(processes.size());
@@ -299,7 +303,7 @@ void MainWindow::updateTable() {
         ui->tableWidget_queue->setItem(i, 5, new QTableWidgetItem(p.status));
     }
 }
-
+// Calculates average waiting time and turnaround time
 void MainWindow::calculateAverages() {
 
     float totalWT = 0;
@@ -318,7 +322,7 @@ void MainWindow::calculateAverages() {
 
     if (count > 0) {
 
-        ui->lbl_avgWaitTime->setText(QString::number(totalWT / count, 'f', 2));
+        ui->lbl_avgWaitTime->setText(QString::number(totalWT / count, 'f', 2)); 
         ui->lbl_avgTurnaroundTime->setText(QString::number(totalTAT / count, 'f', 2));
     }
 }
