@@ -13,12 +13,13 @@ QT_END_NAMESPACE
 
 struct Process {
     int id;
-    int arrival;
-    int burst;
-    int remaining;
-    int completion = -1;
-    int wait = 0;
-    int tat = 0;
+    float arrival;
+    float burst;
+    float remaining;
+    float completion = -1.0f;
+    float wait = 0.0f;
+    float tat = 0.0f;
+    float actualStart = -1.0f;  
     QString status = "Waiting";
 };
 
@@ -40,21 +41,23 @@ private slots:
     void updateSchedulerVisibility();
 
 private:
+    void runStep();
     void updateTable();
     void calculateAverages();
     void runBatch();
     void finishProcess(int idx);
     void checkNewArrivals();
+    void startNextProcess();
 
     Ui::MainWindow *ui;
     QTimer *timer;
     std::vector<Process> processes;
-    std::queue<int> readyQueue; // FCFS Queue
+    std::queue<int> readyQueue;
     int currentIdx = -1;
-    int currentTime = 0;
+    float currentTime = 0.0f;
     int processCounter = 0;
     bool isRunning = false;
     GanttChart *ganttChart;
 };
 
-#endif // MAINWINDOW_H
+#endif 
