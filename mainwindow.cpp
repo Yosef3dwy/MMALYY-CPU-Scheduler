@@ -113,8 +113,6 @@ void MainWindow::on_btn_reset_clicked() {
 //live mode
 void MainWindow::runStep() {
 
-    currentTime = r1(currentTime+0.1f);
-
     for (int i = 0; i < (int)processes.size(); i++) {
         // job queue -> ready queue
         if (processes[i].status == "Waiting" && processes[i].arrival <= currentTime) {
@@ -156,7 +154,6 @@ void MainWindow::runStep() {
                     processes[currentIdx].actualStart = currentTime;
                 }
             }
-
         }
 
         //process is now running
@@ -178,6 +175,8 @@ void MainWindow::runStep() {
                 currentIdx = -1;
             }
         }
+    // update time after check arrivals
+    currentTime = r1(currentTime+0.1f); 
 }
 
 void MainWindow::timerTick() {
