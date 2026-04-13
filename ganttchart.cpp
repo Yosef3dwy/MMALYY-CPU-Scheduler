@@ -56,6 +56,16 @@ void GanttChart::paintEvent(QPaintEvent *) {
     font.setPointSize(9);
     painter.setFont(font);
 
+    //detect idle
+    bool hasIdle = false;
+
+    for (int i = 1; i < segments.size(); i++) {
+        if (segments[i].start > segments[i - 1].end) {
+            hasIdle = true;
+            break;
+        }
+    }
+
     for (const auto &seg : segments) {
         int xStart = seg.start * segWidth;
         int xEnd = seg.end * segWidth;
@@ -75,6 +85,16 @@ void GanttChart::paintEvent(QPaintEvent *) {
         // Time ticks below bar
         painter.setPen(Qt::darkGray);
         painter.drawText(xStart, y + barH + 15, QString::number(seg.start));
+        // if idle exist draw endtime
+        if (hasIdle) {
+            painter.drawText(xEnd - 10, y + barH + 15,
+                             QString::number(seg.end));
+        }
     }
-    painter.drawText(segments.last().end * segWidth, y + barH + 15, QString::number(segments.last().end));
+    // the last processes only to avoid dublicate
+    if (!hasIdle) {
+        painter.drawText(segments.last().end * segWidth - 10,
+                         y + barH + 15,
+                         QString::number(segments.last().end));
+    }
 }
