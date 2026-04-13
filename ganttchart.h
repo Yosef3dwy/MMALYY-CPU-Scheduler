@@ -6,21 +6,21 @@
 
 struct GanttSegment {
     int pid;
-    int start;
-    int end;
+    float start;
+    float end;
 };
 
 class GanttChart : public QWidget {
     Q_OBJECT
 public:
     explicit GanttChart(QWidget *parent = nullptr);
-    void addSegment(int pid, int burst, int start);
+    void addSegment(int pid, float start, float end);
     void clear();
 protected:
     void paintEvent(QPaintEvent *event) override;
 private:
     QVector<GanttSegment> segments;
-    int maxTime = 0;
+    float maxTime = 0.0f;
 };
 
-#endif // GANTTCHART_H
+#endif
