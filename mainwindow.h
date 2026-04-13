@@ -92,6 +92,10 @@ private:
     int processCounter = 0;
     bool isRunning = false;
     GanttChart *ganttChart;
+
+    float QTime = 2.0f; //q time for round robin
+    float timeOnCPU = 0.0f; //to check how long each process been running from the q time
+
 };
 
 #endif 
