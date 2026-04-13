@@ -21,8 +21,6 @@ struct Process {
     float wait = 0.0f;
     float tat = 0.0f;
     float actualStart = -1.0f;
-    float chechpointStart = -1.0f;
-    bool isStarted = false;
     QString status = "Waiting";
 };
 
@@ -40,10 +38,20 @@ struct CompareBurst {
         return a.burst > b.burst; //ordered based on bust time (ascending)
     }
 };
+
+struct ComparePriority {
+    bool operator()(const Process& a, const Process& b) {
+        if (a.priority == b.priority)
+            return a.arrival > b.arrival; //if both arrived at same time: FCFS
+        return a.priority > b.priority; //ordered based on Priority Number (ascending)
+    }
+};
+
 //customize priority queue based on SJF logic
 //arguments: element type, container, comparator
 using JobQueue   = std::priority_queue<Process, std::vector<Process>, CompareArrival>;
 using ReadyQueue_SJF = std::priority_queue<Process, std::vector<Process>, CompareBurst>;
+using ReadyQueue_Priority = std::priority_queue<Process, std::vector<Process>, ComparePriority>;
 
 class GanttChart;
 
@@ -52,6 +60,7 @@ class MainWindow : public QMainWindow {
 
 public:
     explicit MainWindow(QWidget *parent = nullptr);
+    const float tickTime = 0.01; // in seconds
     ~MainWindow();
 
 private slots:
@@ -70,6 +79,9 @@ private:
     void finishProcess(int idx);
     void checkNewArrivals();
     void startNextProcess();
+
+    template <typename ReadyQueueType>
+    void executeNonPreemptive(std::vector<Process>& processes, GanttChart* ganttChart);
 
     Ui::MainWindow *ui;
     QTimer *timer;

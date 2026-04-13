@@ -6,7 +6,7 @@
 #include <cmath>
 
 float r1(float x) {
-    return std::round(x * 10.0f) / 10.0f;
+    return std::round(x * 1000.0f) / 1000.0f;
 }
 
 MainWindow::MainWindow(QWidget *parent)
@@ -81,7 +81,7 @@ void MainWindow::on_btn_start_clicked() {
     if (ui->rb_modeExistingOnly->isChecked()) {
         runBatch();
     } else {
-        timer->start(100);
+        timer->start((int)(tickTime * 1000)); // Tick time in miliseconds coversion
     }
 }
 
@@ -143,9 +143,9 @@ void MainWindow::runStep() {
                 }
             }
 
-            //SJF logic
 
             int bestIdx = -1;
+            //SJF logic
             if (ui->rb_SJF->isChecked() && !ui->chk_preemptive->isChecked()) {
             //choose best (least) burst time
 
@@ -159,8 +159,8 @@ void MainWindow::runStep() {
                     }
                 }
             }
-
-            if (ui->rb_priority->isChecked() && !ui->chk_preemptive->isChecked()) {
+            //Priority logic
+            else if (ui->rb_priority->isChecked() && !ui->chk_preemptive->isChecked()) {
                 //choose best (least) priority number
 
                 for (int j = 0; j < (int)processes.size(); j++) {
@@ -188,10 +188,13 @@ void MainWindow::runStep() {
 
         //process is now running
         if (currentIdx != -1) {
-            processes[currentIdx].remaining -= 0.1f;
+            processes[currentIdx].remaining -= (float)tickTime;
 
+            float sliceStart = currentTime;
+            float sliceEnd = r1(currentTime + (float)tickTime);
+            ganttChart->updateActiveProcess(processes[currentIdx].id, sliceStart, sliceEnd);
 
-            if (processes[currentIdx].remaining <= 0.0001f) {
+            if (processes[currentIdx].remaining <= 0.00001f) {
                 processes[currentIdx].remaining = 0;
                 float exactFinish = processes[currentIdx].actualStart +
                                     processes[currentIdx].burst;
@@ -201,14 +204,12 @@ void MainWindow::runStep() {
                 processes[currentIdx].wait =
                     processes[currentIdx].tat - processes[currentIdx].burst;
                 processes[currentIdx].status = "Completed";
-                ganttChart->addSegment(processes[currentIdx].id,
-                                       r1(processes[currentIdx].actualStart),
-                                       processes[currentIdx].completion);
+
                 currentIdx = -1;
             }
         }
     // update time after check arrivals
-    currentTime = r1(currentTime+0.1f); 
+    currentTime = r1(currentTime + (float)tickTime);
 }
 
 void MainWindow::timerTick() {
@@ -244,44 +245,62 @@ void MainWindow::timerTick() {
     }
 }
 
+
+template <typename ReadyQueueType>
+void MainWindow::executeNonPreemptive(std::vector<Process>& processes, GanttChart* ganttChart) {
+    JobQueue jobQueue;
+    ReadyQueueType readyQueue;
+
+    for (auto& p : processes)
+        jobQueue.push(p);
+
+    float time = 0;
+
+    while (!jobQueue.empty() || !readyQueue.empty()) {
+        while (!jobQueue.empty() && jobQueue.top().arrival <= time) {
+            readyQueue.push(jobQueue.top());
+            jobQueue.pop();
+        }
+
+        // CPU idle, move on to next arrived process
+        if (readyQueue.empty()) {
+            time = jobQueue.top().arrival;
+            continue;
+        }
+
+        // Running process
+        Process p = readyQueue.top();
+        readyQueue.pop();
+        p.actualStart  = time;
+        p.completion   = r1(time + p.burst);
+        p.tat          = p.completion - p.arrival;
+        p.wait         = p.tat - p.burst;
+        time = p.completion;
+
+        // Update processes vector to reflect on GUI
+        for (auto& vp : processes) {
+            if (vp.id == p.id) {
+                vp = p;
+                vp.status    = "Completed";
+                vp.remaining = 0;
+                break;
+            }
+        }
+        ganttChart->addSegment(p.id, p.actualStart, p.completion);
+    }
+}
+
+
 //non-live mode
 void MainWindow::runBatch() {
     //SJF logic
-    if (ui->rb_SJF->isChecked()) {
-        JobQueue jobQueue;
-        ReadyQueue_SJF sjfReadyQueue;
-        for (auto& p : processes)
-            jobQueue.push(p);
-        float time = 0; //suppose it's current time
-        // outer loop: while completed processes < original size of processes
-        while (!jobQueue.empty() || !sjfReadyQueue.empty()) {
-            while (!jobQueue.empty() && jobQueue.top().arrival <= time) {
-                sjfReadyQueue.push(jobQueue.top());
-                jobQueue.pop();
-            }
-            //CPU idle, move on to next arrived process
-            if (sjfReadyQueue.empty()) {
-                time = jobQueue.top().arrival;
-                continue;
-            }
-            //running process
-            Process p = sjfReadyQueue.top();
-            sjfReadyQueue.pop();
-            p.actualStart  = time;
-            p.completion   = r1(time + p.burst);
-            p.tat          = p.completion - p.arrival;
-            p.wait         = p.tat - p.burst;
-            time = p.completion; //update current time to proceed
-            for (auto& vp : processes) { //p: SJFReadyQueue, update processes vector to reflect on GUI
-                if (vp.id == p.id) {
-                    vp = p;
-                    vp.status    = "Completed";
-                    vp.remaining = 0;
-                    break;
-                }
-            }
-            ganttChart->addSegment(p.id, p.actualStart, p.completion);
-        }
+    if (ui->rb_SJF->isChecked() && !ui->chk_preemptive->isChecked())
+    {
+        executeNonPreemptive<ReadyQueue_SJF>(processes, ganttChart);
+    }
+    // Priority (Non-Preemptive) logic
+    else if (ui->rb_priority->isChecked() && !ui->chk_preemptive->isChecked()) {
+        executeNonPreemptive<ReadyQueue_Priority>(processes, ganttChart);
     }
 
     //FCFS logic

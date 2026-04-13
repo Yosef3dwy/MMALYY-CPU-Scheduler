@@ -1,6 +1,7 @@
 #include "ganttchart.h"
 #include <QPainter>
 #include <QFontMetrics>
+#include <cmath>
 
 GanttChart::GanttChart(QWidget *parent) : QWidget(parent) {
     setMinimumHeight(100);
@@ -11,6 +12,22 @@ GanttChart::GanttChart(QWidget *parent) : QWidget(parent) {
 void GanttChart::addSegment(int pid, float start, float end) {
     segments.append({pid, start, end});
     if (end > maxTime) maxTime = end;
+    update();
+}
+
+void GanttChart::updateActiveProcess(int pid, float startTime, float endTime) {
+    // If the last segment belongs to the same process and there is no gap in time, extend it
+    if (!segments.isEmpty() && segments.last().pid == pid && std::abs(segments.last().end - startTime) < 0.01f) {
+        segments.last().end = endTime;
+    } else {
+        // Otherwise (new process or after idle time), append a new segment
+        segments.append({pid, startTime, endTime});
+    }
+
+    // Update max time and trigger a repaint
+    if (endTime > maxTime) {
+        maxTime = endTime;
+    }
     update();
 }
 
