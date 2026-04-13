@@ -15,11 +15,14 @@ struct Process {
     int id;
     float arrival;
     float burst;
+    int priority = 0;
     float remaining;
     float completion = -1.0f;
     float wait = 0.0f;
     float tat = 0.0f;
-    float actualStart = -1.0f;  
+    float actualStart = -1.0f;
+    float chechpointStart = -1.0f;
+    bool isStarted = false;
     QString status = "Waiting";
 };
 

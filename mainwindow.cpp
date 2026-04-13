@@ -34,6 +34,13 @@ void MainWindow::on_btn_addProcess_clicked() {
     float burst = ui->spinBox_burstTime->value();
     float arrival = ui->spinBox_arrivalTime->value();
 
+    if(arrival < currentTime)
+    {
+        arrival = currentTime;
+    }
+
+    int pri = ui->spinBox_priority->value();
+
     if (burst <= 0) {
         QMessageBox::warning(this, "Error", "Burst time must be > 0");
         return;
@@ -44,6 +51,7 @@ void MainWindow::on_btn_addProcess_clicked() {
     p.id = ++processCounter;
     p.arrival = arrival;
     p.burst = burst;
+    p.priority = pri;
     p.remaining = burst;
 
     p.completion = 0;
@@ -123,7 +131,8 @@ void MainWindow::runStep() {
     }
 
         //waiting in ready queue -> running
-        if (currentIdx == -1) {
+        if (currentIdx == -1)
+        {
             //FCFS logic
             if (ui->rb_FCFS->isChecked()) {
                 if (!readyQueue.empty()) {
@@ -135,30 +144,53 @@ void MainWindow::runStep() {
             }
 
             //SJF logic
-            else if (ui->rb_SJF->isChecked()) {
+
+            int bestIdx = -1;
+            if (ui->rb_SJF->isChecked() && !ui->chk_preemptive->isChecked()) {
             //choose best (least) burst time
-                int bestIdx = -1;
+
                 for (int j = 0; j < (int)processes.size(); j++) {
                     if (processes[j].status == "Ready") {
                         if (bestIdx == -1
                             || processes[j].burst < processes[bestIdx].burst
-                            || (processes[j].burst == processes[bestIdx].burst
-                                && processes[j].arrival < processes[bestIdx].arrival))
+                            || (processes[j].burst == processes[bestIdx].burst && processes[j].arrival < processes[bestIdx].arrival))
+
                             bestIdx = j;
                     }
                 }
-                //have chosen, now run process with least burst time
-                if (bestIdx != -1) {
-                    currentIdx = bestIdx;
-                    processes[currentIdx].status = "Running";
-                    processes[currentIdx].actualStart = currentTime;
+            }
+
+            if (ui->rb_priority->isChecked() && !ui->chk_preemptive->isChecked()) {
+                //choose best (least) priority number
+
+                for (int j = 0; j < (int)processes.size(); j++) {
+                    if (processes[j].status == "Ready") {
+                        if (bestIdx == -1
+                            || processes[j].priority < processes[bestIdx].priority
+                            || (processes[j].priority == processes[bestIdx].priority && processes[j].arrival < processes[bestIdx].arrival))
+
+                        bestIdx = j;
+                    }
                 }
             }
+
+
+            //have chosen, now run process with least burst time or the least priority number
+            if (bestIdx != -1) {
+                currentIdx = bestIdx;
+                processes[currentIdx].status = "Running";
+                processes[currentIdx].actualStart = currentTime;
+            }
+
+
+
         }
 
         //process is now running
         if (currentIdx != -1) {
             processes[currentIdx].remaining -= 0.1f;
+
+
             if (processes[currentIdx].remaining <= 0.0001f) {
                 processes[currentIdx].remaining = 0;
                 float exactFinish = processes[currentIdx].actualStart +
@@ -181,7 +213,7 @@ void MainWindow::runStep() {
 
 void MainWindow::timerTick() {
 
-    if (ui->rb_FCFS->isChecked() || ui->rb_SJF->isChecked())
+    if (ui->rb_FCFS->isChecked() || ui->rb_SJF->isChecked() || ui->rb_priority->isChecked())
         runStep();
 
     updateTable();
@@ -294,7 +326,7 @@ void MainWindow::updateTable() {
         ui->tableWidget_queue->setItem(i, 0, new QTableWidgetItem("P" + QString::number(p.id)));
         ui->tableWidget_queue->setItem(i, 1, new QTableWidgetItem(QString::number(p.arrival, 'f', 2)));
         ui->tableWidget_queue->setItem(i, 2, new QTableWidgetItem(QString::number(p.burst, 'f', 2)));
-        ui->tableWidget_queue->setItem(i, 3, new QTableWidgetItem("-"));
+        ui->tableWidget_queue->setItem(i, 3, new QTableWidgetItem(QString::number(p.priority)));
         ui->tableWidget_queue->setItem(i, 4, new QTableWidgetItem(QString::number(p.remaining, 'f', 2)));
         ui->tableWidget_queue->setItem(i, 5, new QTableWidgetItem(p.status));
     }

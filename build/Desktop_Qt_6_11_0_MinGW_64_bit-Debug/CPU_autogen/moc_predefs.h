@@ -202,6 +202,7 @@
 #define __DBL_HAS_QUIET_NAN__ 1
 #define __FLT32X_EPSILON__ 2.22044604925031308084726333618164062e-16F32x
 #define __LDBL_MAX_EXP__ 16384
+#define __nocona__ 1
 #define __DECIMAL_BID_FORMAT__ 1
 #define __GXX_TYPEINFO_EQUALITY_INLINE 0
 #define __FLT64_MIN_10_EXP__ (-307)
@@ -306,7 +307,6 @@
 #define __INT16_TYPE__ short int
 #define __INT_LEAST8_TYPE__ signed char
 #define __FLT16_MAX__ 6.55040000000000000000000000000000000e+4F16
-#define __nocona__ 1
 #define __FLT128_MIN__ 3.36210314311209350626267781732175260e-4932F128
 #define __cpp_structured_bindings 201606L
 #define __SIZEOF_INT__ 4

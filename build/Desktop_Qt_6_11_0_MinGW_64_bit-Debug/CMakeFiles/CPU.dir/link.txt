@@ -1,3 +1,0 @@
-C:\Qt\Tools\CMake_64\bin\cmake.exe -E rm -f CMakeFiles\CPU.dir/objects.a
-C:\Qt\Tools\mingw1310_64\bin\ar.exe qc CMakeFiles\CPU.dir/objects.a @CMakeFiles\CPU.dir\objects1.rsp
-C:\Qt\Tools\mingw1310_64\bin\g++.exe -g -mwindows -Wl,--whole-archive CMakeFiles\CPU.dir/objects.a -Wl,--no-whole-archive -o CPU.exe -Wl,--out-implib,libCPU.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\CPU.dir\linkLibs.rsp
