@@ -169,7 +169,9 @@ void MainWindow::runStep() {
 
 void MainWindow::timerTick() {
 
-    runStep();
+    if (ui->rb_FCFS->isChecked()) {
+        runStep();
+    }
 
     updateTable();
     ganttChart->update();
@@ -204,7 +206,9 @@ void MainWindow::runBatch() {
 
     while (true) {
 
-        runStep();
+        if (ui->rb_FCFS->isChecked()) {
+            runStep();
+        }
 
         bool done = true;
 
