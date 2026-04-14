@@ -15,11 +15,12 @@ struct Process {
     int id;
     float arrival;
     float burst;
+    int priority = 0;
     float remaining;
     float completion = -1.0f;
     float wait = 0.0f;
     float tat = 0.0f;
-    float actualStart = -1.0f;  
+    float actualStart = -1.0f;
     QString status = "Waiting";
 };
 
@@ -37,10 +38,20 @@ struct CompareBurst {
         return a.burst > b.burst; //ordered based on bust time (ascending)
     }
 };
+
+struct ComparePriority {
+    bool operator()(const Process& a, const Process& b) {
+        if (a.priority == b.priority)
+            return a.arrival > b.arrival; //if both arrived at same time: FCFS
+        return a.priority > b.priority; //ordered based on Priority Number (ascending)
+    }
+};
+
 //customize priority queue based on SJF logic
 //arguments: element type, container, comparator
 using JobQueue   = std::priority_queue<Process, std::vector<Process>, CompareArrival>;
 using ReadyQueue_SJF = std::priority_queue<Process, std::vector<Process>, CompareBurst>;
+using ReadyQueue_Priority = std::priority_queue<Process, std::vector<Process>, ComparePriority>;
 
 class GanttChart;
 
@@ -49,6 +60,7 @@ class MainWindow : public QMainWindow {
 
 public:
     explicit MainWindow(QWidget *parent = nullptr);
+    const float tickTime = 0.01; // in seconds
     ~MainWindow();
 
 private slots:
@@ -57,7 +69,7 @@ private slots:
     void on_btn_pause_clicked();
     void on_btn_reset_clicked();
     void timerTick();
-    void updateSchedulerVisibility();
+    void updatePriorityInputState();
 
 private:
     void runStep(); // for FCFS & SJF
@@ -68,6 +80,9 @@ private:
     void checkNewArrivals();
     void startNextProcess();
 
+    template <typename ReadyQueueType>
+    void executeNonPreemptive(std::vector<Process>& processes, GanttChart* ganttChart);
+
     Ui::MainWindow *ui;
     QTimer *timer;
     std::vector<Process> processes; //used by FCFS and SJF also
@@ -77,6 +92,10 @@ private:
     int processCounter = 0;
     bool isRunning = false;
     GanttChart *ganttChart;
+
+    float QTime = 2.0f; //q time for round robin
+    float timeOnCPU = 0.0f; //to check how long each process been running from the q time
+
 };
 
 #endif 

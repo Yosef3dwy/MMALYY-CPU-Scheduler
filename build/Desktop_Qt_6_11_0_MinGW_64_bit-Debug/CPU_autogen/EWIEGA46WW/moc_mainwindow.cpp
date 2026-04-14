@@ -45,7 +45,7 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
         "on_btn_pause_clicked",
         "on_btn_reset_clicked",
         "timerTick",
-        "updateSchedulerVisibility"
+        "updatePriorityInputState"
     };
 
     QtMocHelpers::UintData qt_methods {
@@ -59,7 +59,7 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
         QtMocHelpers::SlotData<void()>(5, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'timerTick'
         QtMocHelpers::SlotData<void()>(6, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'updateSchedulerVisibility'
+        // Slot 'updatePriorityInputState'
         QtMocHelpers::SlotData<void()>(7, 2, QMC::AccessPrivate, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
@@ -89,7 +89,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 2: _t->on_btn_pause_clicked(); break;
         case 3: _t->on_btn_reset_clicked(); break;
         case 4: _t->timerTick(); break;
-        case 5: _t->updateSchedulerVisibility(); break;
+        case 5: _t->updatePriorityInputState(); break;
         default: ;
         }
     }

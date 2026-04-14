@@ -15,6 +15,7 @@ class GanttChart : public QWidget {
 public:
     explicit GanttChart(QWidget *parent = nullptr);
     void addSegment(int pid, float start, float end);
+    void updateActiveProcess(int pid, float startTime, float endTime);
     void clear();
 protected:
     void paintEvent(QPaintEvent *event) override;

@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/hp/MMALYY-CPU-Scheduler
+# Install script for directory: D:/WorkSpace/Coding_WS/MMALYY-CPU-Scheduler
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -34,15 +34,15 @@ endif()
 
 # Set path to fallback-tool for dependency-resolution.
 if(NOT DEFINED CMAKE_OBJDUMP)
-  set(CMAKE_OBJDUMP "C:/Qt/Tools/mingw1310_64/bin/objdump.exe")
+  set(CMAKE_OBJDUMP "D:/Programs/Qt/Tools/mingw1310_64/bin/objdump.exe")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" TYPE EXECUTABLE FILES "C:/Users/hp/MMALYY-CPU-Scheduler/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/CPU.exe")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" TYPE EXECUTABLE FILES "D:/WorkSpace/Coding_WS/MMALYY-CPU-Scheduler/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/CPU.exe")
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/CPU.exe" AND
      NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/CPU.exe")
     if(CMAKE_INSTALL_DO_STRIP)
-      execute_process(COMMAND "C:/Qt/Tools/mingw1310_64/bin/strip.exe" "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/CPU.exe")
+      execute_process(COMMAND "D:/Programs/Qt/Tools/mingw1310_64/bin/strip.exe" "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/CPU.exe")
     endif()
   endif()
 endif()
@@ -62,6 +62,6 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-  file(WRITE "C:/Users/hp/MMALYY-CPU-Scheduler/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/${CMAKE_INSTALL_MANIFEST}"
+  file(WRITE "D:/WorkSpace/Coding_WS/MMALYY-CPU-Scheduler/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()

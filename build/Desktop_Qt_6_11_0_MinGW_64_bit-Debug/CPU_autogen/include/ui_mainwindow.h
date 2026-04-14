@@ -80,14 +80,14 @@ public:
     QLabel *lbl_avgTurnaroundTime;
     QLabel *label_10;
     QSpacerItem *horizontalSpacer_2;
-    QButtonGroup *buttonGroup_2;
     QButtonGroup *buttonGroup;
+    QButtonGroup *buttonGroup_2;
 
     void setupUi(QMainWindow *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName("MainWindow");
-        MainWindow->resize(777, 707);
+        MainWindow->resize(777, 758);
         QIcon icon;
         icon.addFile(QString::fromUtf8("Icon.png"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
         MainWindow->setWindowIcon(icon);
@@ -274,7 +274,7 @@ public:
         scrollArea_gantt->setWidgetResizable(true);
         widget_ganttCanvas = new QWidget();
         widget_ganttCanvas->setObjectName("widget_ganttCanvas");
-        widget_ganttCanvas->setGeometry(QRect(0, 0, 737, 54));
+        widget_ganttCanvas->setGeometry(QRect(0, 0, 727, 83));
         horizontalLayout_3 = new QHBoxLayout(widget_ganttCanvas);
         horizontalLayout_3->setObjectName("horizontalLayout_3");
         scrollArea_gantt->setWidget(widget_ganttCanvas);

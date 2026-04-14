@@ -1,6 +1,7 @@
 #include "ganttchart.h"
 #include <QPainter>
 #include <QFontMetrics>
+#include <cmath>
 
 GanttChart::GanttChart(QWidget *parent) : QWidget(parent) {
     setMinimumHeight(100);
@@ -11,6 +12,22 @@ GanttChart::GanttChart(QWidget *parent) : QWidget(parent) {
 void GanttChart::addSegment(int pid, float start, float end) {
     segments.append({pid, start, end});
     if (end > maxTime) maxTime = end;
+    update();
+}
+
+void GanttChart::updateActiveProcess(int pid, float startTime, float endTime) {
+    // If the last segment belongs to the same process and there is no gap in time, extend it
+    if (!segments.isEmpty() && segments.last().pid == pid && std::abs(segments.last().end - startTime) < 0.01f) {
+        segments.last().end = endTime;
+    } else {
+        // Otherwise (new process or after idle time), append a new segment
+        segments.append({pid, startTime, endTime});
+    }
+
+    // Update max time and trigger a repaint
+    if (endTime > maxTime) {
+        maxTime = endTime;
+    }
     update();
 }
 
@@ -39,6 +56,16 @@ void GanttChart::paintEvent(QPaintEvent *) {
     font.setPointSize(9);
     painter.setFont(font);
 
+    //detect idle
+    bool hasIdle = false;
+
+    for (int i = 1; i < segments.size(); i++) {
+        if (segments[i].start > segments[i - 1].end) {
+            hasIdle = true;
+            break;
+        }
+    }
+
     for (const auto &seg : segments) {
         int xStart = seg.start * segWidth;
         int xEnd = seg.end * segWidth;
@@ -58,6 +85,16 @@ void GanttChart::paintEvent(QPaintEvent *) {
         // Time ticks below bar
         painter.setPen(Qt::darkGray);
         painter.drawText(xStart, y + barH + 15, QString::number(seg.start));
+        // if idle exist draw endtime
+        if (hasIdle) {
+            painter.drawText(xEnd - 10, y + barH + 15,
+                             QString::number(seg.end));
+        }
     }
-    painter.drawText(segments.last().end * segWidth, y + barH + 15, QString::number(segments.last().end));
+    // the last processes only to avoid dublicate
+    if (!hasIdle) {
+        painter.drawText(segments.last().end * segWidth - 10,
+                         y + barH + 15,
+                         QString::number(segments.last().end));
+    }
 }
