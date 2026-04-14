@@ -5,9 +5,14 @@
 #include <QAbstractItemView>
 #include <cmath>
 
-float r1(float x)
+float r3(float x)
 {
     return std::round(x * 1000.0f) / 1000.0f;
+}
+
+float r1(float x)
+{
+    return std::round(x * 10.0f) / 10.0f;
 }
 
 MainWindow::MainWindow(QWidget *parent)
@@ -25,6 +30,13 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->tableWidget_queue->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->btn_pause->setEnabled(false);
+
+    connect(ui->rb_FCFS, &QRadioButton::toggled, this, &MainWindow::updatePriorityInputState);
+    connect(ui->rb_SJF, &QRadioButton::toggled, this, &MainWindow::updatePriorityInputState);
+    connect(ui->rb_priority, &QRadioButton::toggled, this, &MainWindow::updatePriorityInputState);
+    connect(ui->rb_roundRobin, &QRadioButton::toggled, this, &MainWindow::updatePriorityInputState);
+
+    updatePriorityInputState();
 }
 
 MainWindow::~MainWindow()
@@ -85,6 +97,17 @@ void MainWindow::on_btn_start_clicked()
     ui->btn_start->setEnabled(false);
     ui->btn_pause->setEnabled(true);
 
+
+    // Disable the configuretion buttons
+    ui->rb_FCFS->setEnabled(false);
+    ui->rb_SJF->setEnabled(false);
+    ui->rb_priority->setEnabled(false);
+    ui->rb_roundRobin->setEnabled(false);
+    ui->chk_preemptive->setEnabled(false);
+    ui->rb_modeLive->setEnabled(false);
+    ui->rb_modeExistingOnly->setEnabled(false);
+
+
     if (ui->rb_roundRobin->isChecked())
         QTime = ui->spinBox_quantum->value();
 
@@ -134,6 +157,15 @@ void MainWindow::on_btn_reset_clicked()
 
     ui->btn_start->setEnabled(true);
     ui->btn_pause->setEnabled(false);
+
+    // Enable the configuretion buttons
+    ui->rb_FCFS->setEnabled(true);
+    ui->rb_SJF->setEnabled(true);
+    ui->rb_priority->setEnabled(true);
+    ui->rb_roundRobin->setEnabled(true);
+    ui->chk_preemptive->setEnabled(true);
+    ui->rb_modeLive->setEnabled(true);
+    ui->rb_modeExistingOnly->setEnabled(true);
 }
 
 // live mode
@@ -146,8 +178,17 @@ void MainWindow::runStep()
         if (processes[i].status == "Waiting" && processes[i].arrival <= currentTime)
         {
             processes[i].status = "Ready";
+
             if (ui->rb_FCFS->isChecked() || ui->rb_roundRobin->isChecked())
+            {
                 readyQueue.push(i);
+            }
+            else if (ui->chk_preemptive->isChecked() && (currentIdx != -1) )
+            {
+                // If Preemptive, recalculate the best index in SJF & Priority only!!!
+                processes[currentIdx].status = "Ready";
+                currentIdx = -1;
+            }
         }
     }
 
@@ -166,6 +207,7 @@ void MainWindow::runStep()
             }
         }
 
+        // Round Robin logic
         else if (ui->rb_roundRobin->isChecked())
         {
             if (!readyQueue.empty())
@@ -181,7 +223,7 @@ void MainWindow::runStep()
 
         int bestIdx = -1;
         // SJF logic
-        if (ui->rb_SJF->isChecked() && !ui->chk_preemptive->isChecked())
+        if (ui->rb_SJF->isChecked())
         {
             // choose best (least) burst time
 
@@ -189,14 +231,17 @@ void MainWindow::runStep()
             {
                 if (processes[j].status == "Ready")
                 {
-                    if (bestIdx == -1 || processes[j].burst < processes[bestIdx].burst || (processes[j].burst == processes[bestIdx].burst && processes[j].arrival < processes[bestIdx].arrival))
+                    if (bestIdx == -1
+                        || processes[j].remaining < processes[bestIdx].remaining
+                        || (processes[j].remaining == processes[bestIdx].remaining
+                        && processes[j].arrival < processes[bestIdx].arrival))
 
                         bestIdx = j;
                 }
             }
         }
         // Priority logic
-        else if (ui->rb_priority->isChecked() && !ui->chk_preemptive->isChecked())
+        else if (ui->rb_priority->isChecked())
         {
             // choose best (least) priority number
 
@@ -204,7 +249,10 @@ void MainWindow::runStep()
             {
                 if (processes[j].status == "Ready")
                 {
-                    if (bestIdx == -1 || processes[j].priority < processes[bestIdx].priority || (processes[j].priority == processes[bestIdx].priority && processes[j].arrival < processes[bestIdx].arrival))
+                    if (bestIdx == -1
+                        || processes[j].priority < processes[bestIdx].priority
+                        || (processes[j].priority == processes[bestIdx].priority
+                        && processes[j].arrival < processes[bestIdx].arrival))
 
                         bestIdx = j;
                 }
@@ -225,35 +273,40 @@ void MainWindow::runStep()
     {
         processes[currentIdx].remaining -= (float)tickTime;
 
+        // GantChart Rendering
         float sliceStart = currentTime;
-        float sliceEnd = r1(currentTime + (float)tickTime);
+        float sliceEnd = r3(currentTime + (float)tickTime);
         ganttChart->updateActiveProcess(processes[currentIdx].id, sliceStart, sliceEnd);
 
         if (ui->rb_roundRobin->isChecked())
             timeOnCPU += (float)tickTime; // track time of the process
 
-        if (processes[currentIdx].remaining <= 0.00001f)
+        if (processes[currentIdx].remaining <= 0.001f)
         {
             processes[currentIdx].remaining = 0;
-//as the end of the process in round robin differs from the others
+
+            //as the end of the process in round robin differs from the others
             if (ui->rb_roundRobin->isChecked())
             {
                 processes[currentIdx].completion = sliceEnd;
             }
-//for FCFS & (Non-preemptive)
+            //for FCFS & (Non-preemptive)
             else
             {
-                float exactFinish = processes[currentIdx].actualStart +
-                                    processes[currentIdx].burst;
-                processes[currentIdx].completion = r1(exactFinish);
+                processes[currentIdx].completion = r1(currentTime);
             }
 
+            // Process' Turnaround Time
             processes[currentIdx].tat =
                 processes[currentIdx].completion - processes[currentIdx].arrival;
+
+            // Process' Waiting Time
             processes[currentIdx].wait =
                 processes[currentIdx].tat - processes[currentIdx].burst;
+
             processes[currentIdx].status = "Completed";
 
+            // Flag that there is no process is running
             currentIdx = -1;
         }
 
@@ -276,7 +329,7 @@ void MainWindow::runStep()
         }
     }
     // update time after check arrivals
-    currentTime = r1(currentTime + (float)tickTime);
+    currentTime = r3(currentTime + (float)tickTime);
 }
 
 void MainWindow::timerTick()
@@ -316,7 +369,7 @@ void MainWindow::timerTick()
     }
 }
 
-template <typename ReadyQueueType>
+/*template <typename ReadyQueueType>
 void MainWindow::executeNonPreemptive(std::vector<Process> &processes, GanttChart *ganttChart)
 {
     JobQueue jobQueue;
@@ -346,7 +399,7 @@ void MainWindow::executeNonPreemptive(std::vector<Process> &processes, GanttChar
         Process p = readyQueue.top();
         readyQueue.pop();
         p.actualStart = time;
-        p.completion = r1(time + p.burst);
+        p.completion = r3(time + p.burst);
         p.tat = p.completion - p.arrival;
         p.wait = p.tat - p.burst;
         time = p.completion;
@@ -364,45 +417,40 @@ void MainWindow::executeNonPreemptive(std::vector<Process> &processes, GanttChar
         }
         ganttChart->addSegment(p.id, p.actualStart, p.completion);
     }
-}
+}*/
 
 // non-live mode
 void MainWindow::runBatch()
 {
-    // SJF logic
-    if (ui->rb_SJF->isChecked() && !ui->chk_preemptive->isChecked())
-    {
-        executeNonPreemptive<ReadyQueue_SJF>(processes, ganttChart);
-    }
-    // Priority (Non-Preemptive) logic
-    else if (ui->rb_priority->isChecked() && !ui->chk_preemptive->isChecked())
-    {
-        executeNonPreemptive<ReadyQueue_Priority>(processes, ganttChart);
-    }
+    // SJF (Non-Preemptive) logic
+    // if (ui->rb_SJF->isChecked() && !ui->chk_preemptive->isChecked())
+    // {
+    //     executeNonPreemptive<ReadyQueue_SJF>(processes, ganttChart);
+    // }
 
     // FCFS & RR logic
-    else if (ui->rb_FCFS->isChecked()  || ui->rb_roundRobin->isChecked())
+    // else if (ui->rb_FCFS->isChecked() || ui->rb_roundRobin->isChecked() || ui->rb_priority->isChecked() || ui->rb_SJF->isChecked())
+    // {
+    while (true)
     {
-        while (true)
+        runStep();
+        bool done = true;
+        if (processes.size() == 0)
         {
-            runStep();
-            bool done = true;
-            if (processes.size() == 0)
+            done = false;
+        }
+        for (int i = 0; i < (int)processes.size(); i++)
+        {
+            if (processes[i].status != "Completed")
             {
                 done = false;
-            }
-            for (int i = 0; i < (int)processes.size(); i++)
-            {
-                if (processes[i].status != "Completed")
-                {
-                    done = false;
-                    break;
-                }
-            }
-            if (done == true)
                 break;
+            }
         }
+        if (done == true)
+            break;
     }
+    // }
 
     timer->stop();
     isRunning = false;
@@ -428,7 +476,16 @@ void MainWindow::updateTable()
         ui->tableWidget_queue->setItem(i, 0, new QTableWidgetItem("P" + QString::number(p.id)));
         ui->tableWidget_queue->setItem(i, 1, new QTableWidgetItem(QString::number(p.arrival, 'f', 2)));
         ui->tableWidget_queue->setItem(i, 2, new QTableWidgetItem(QString::number(p.burst, 'f', 2)));
-        ui->tableWidget_queue->setItem(i, 3, new QTableWidgetItem(QString::number(p.priority)));
+
+        if (ui->rb_priority->isChecked())
+        {
+            ui->tableWidget_queue->setItem(i, 3, new QTableWidgetItem(QString::number(p.priority)));
+        }
+        else
+        {
+            ui->tableWidget_queue->setItem(i, 3, new QTableWidgetItem("-"));
+        }
+
         ui->tableWidget_queue->setItem(i, 4, new QTableWidgetItem(QString::number(p.remaining, 'f', 2)));
         ui->tableWidget_queue->setItem(i, 5, new QTableWidgetItem(p.status));
     }
@@ -461,4 +518,21 @@ void MainWindow::calculateAverages()
     }
 }
 
-void MainWindow::updateSchedulerVisibility() {}
+void MainWindow::updatePriorityInputState() {
+
+    if (ui->rb_priority->isChecked())
+    {
+        ui->spinBox_priority->setEnabled(true);
+        ui->spinBox_quantum->setEnabled(false);
+    }
+    else if (ui->rb_roundRobin->isChecked())
+    {
+        ui->spinBox_priority->setEnabled(false);
+        ui->spinBox_quantum->setEnabled(true);
+    }
+    else
+    {
+        ui->spinBox_priority->setEnabled(false);
+        ui->spinBox_quantum->setEnabled(false);
+    }
+}

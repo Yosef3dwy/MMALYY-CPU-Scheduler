@@ -69,7 +69,7 @@ private slots:
     void on_btn_pause_clicked();
     void on_btn_reset_clicked();
     void timerTick();
-    void updateSchedulerVisibility();
+    void updatePriorityInputState();
 
 private:
     void runStep(); // for FCFS & SJF
