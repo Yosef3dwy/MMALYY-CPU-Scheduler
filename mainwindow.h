@@ -24,34 +24,45 @@ struct Process {
     QString status = "Waiting";
 };
 
-//comparators needed for SJF logic
-struct CompareArrival {
-    bool operator()(const Process& a, const Process& b) {
-        return a.arrival > b.arrival; //odrder based on arrival time (ascending)
+
+struct CompareArrivalIdx {
+    const std::vector<Process>& procs;
+    CompareArrivalIdx(const std::vector<Process>& p) : procs(p) {}
+
+    bool operator()(int a, int b) {
+        return procs[a].arrival > procs[b].arrival;
     }
 };
 
-struct CompareBurst {
-    bool operator()(const Process& a, const Process& b) {
-        if (a.burst == b.burst)
-            return a.arrival > b.arrival; //if both arrived at same time: FCFS
-        return a.burst > b.burst; //ordered based on bust time (ascending)
+struct CompareBurstIdx {
+    const std::vector<Process>& procs;
+    CompareBurstIdx(const std::vector<Process>& p) : procs(p) {}
+
+    bool operator()(int a, int b) {
+        if (procs[a].burst == procs[b].burst)
+            return procs[a].arrival > procs[b].arrival;
+        return procs[a].burst > procs[b].burst;
     }
 };
 
-struct ComparePriority {
-    bool operator()(const Process& a, const Process& b) {
-        if (a.priority == b.priority)
-            return a.arrival > b.arrival; //if both arrived at same time: FCFS
-        return a.priority > b.priority; //ordered based on Priority Number (ascending)
+struct ComparePriorityIdx {
+    const std::vector<Process>& procs;
+    ComparePriorityIdx(const std::vector<Process>& p) : procs(p) {}
+
+    bool operator()(int a, int b) {
+        if (procs[a].priority == procs[b].priority)
+            return procs[a].arrival > procs[b].arrival;
+        return procs[a].priority > procs[b].priority;
     }
 };
+
+
 
 //customize priority queue based on SJF logic
 //arguments: element type, container, comparator
-using JobQueue   = std::priority_queue<Process, std::vector<Process>, CompareArrival>;
-using ReadyQueue_SJF = std::priority_queue<Process, std::vector<Process>, CompareBurst>;
-using ReadyQueue_Priority = std::priority_queue<Process, std::vector<Process>, ComparePriority>;
+using JobQueue   = std::priority_queue<int, std::vector<int>, CompareArrivalIdx>;
+using ReadyQueue_SJF = std::priority_queue<int, std::vector<int>, CompareBurstIdx>;
+using ReadyQueue_Priority = std::priority_queue<int, std::vector<int>, ComparePriorityIdx>;
 
 class GanttChart;
 
@@ -60,7 +71,7 @@ class MainWindow : public QMainWindow {
 
 public:
     explicit MainWindow(QWidget *parent = nullptr);
-    const float tickTime = 0.01; // in seconds
+    const float tickTime = 0.005; // in seconds
     ~MainWindow();
 
 private slots:
@@ -72,7 +83,8 @@ private slots:
     void updatePriorityInputState();
 
 private:
-    void runStep(); // for FCFS & SJF
+    void runStep();
+
     void updateTable();
     void calculateAverages();
     void runBatch();
@@ -86,6 +98,13 @@ private:
     Ui::MainWindow *ui;
     QTimer *timer;
     std::vector<Process> processes; //used by FCFS and SJF also
+
+
+    JobQueue jobQueue;
+    ReadyQueue_Priority priReadyQueue;
+    ReadyQueue_SJF sjfReadyQueue;
+    int noCompletedProcesses = 0;
+
     std::queue<int> readyQueue; // for FCFS
     int currentIdx = -1;
     float currentTime = 0.0f;
