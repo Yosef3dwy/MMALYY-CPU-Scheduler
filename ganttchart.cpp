@@ -7,8 +7,7 @@ GanttChart::GanttChart(QWidget *parent) : QWidget(parent) {
     setMinimumHeight(100);
 }
 
-//I have changed the data type of burst, start to float to match function definition
-//notice that addSegment in .h file is (int pid, float start, float end)
+
 void GanttChart::addSegment(int pid, float start, float end) {
     segments.append({pid, start, end});
     if (end > maxTime) maxTime = end;
@@ -37,7 +36,8 @@ void GanttChart::clear() {
     update();
 }
 
-void GanttChart::paintEvent(QPaintEvent *) {
+void GanttChart::paintEvent(QPaintEvent *)
+{
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
 
@@ -49,6 +49,7 @@ void GanttChart::paintEvent(QPaintEvent *) {
     int height = this->height();
     int barH = 50;
     int y = (height - barH) / 2;
+
     int segWidth = width() / (maxTime + 1);
     if (segWidth < 1) segWidth = 1;
 
@@ -56,45 +57,49 @@ void GanttChart::paintEvent(QPaintEvent *) {
     font.setPointSize(9);
     painter.setFont(font);
 
-    //detect idle
-    bool hasIdle = false;
+    for (int i = 0; i < segments.size(); i++)
+    {
+        const auto &seg = segments[i];
 
-    for (int i = 1; i < segments.size(); i++) {
-        if (segments[i].start > segments[i - 1].end) {
-            hasIdle = true;
-            break;
-        }
-    }
-
-    for (const auto &seg : segments) {
         int xStart = seg.start * segWidth;
-        int xEnd = seg.end * segWidth;
-        int w = xEnd - xStart;
+        int xEnd   = seg.end * segWidth;
+        int w      = xEnd - xStart;
         if (w <= 0) continue;
 
-        // Unique color per process
-        QColor color = QColor::fromHsv((seg.pid * 47) % 360, 160, 230);
+        QColor color;
+
+        if (seg.pid == -1)
+            color = Qt::lightGray;   // idle
+        else
+            // Unique color per process
+            color = QColor::fromHsv((seg.pid * 47) % 360, 160, 230);
+
         painter.setBrush(color);
-        painter.setPen(Qt::white);
+        painter.setPen(Qt::black);
         painter.drawRect(xStart, y, w, barH);
 
-        painter.setPen(Qt::black);
-        QString label = QString("P%1").arg(seg.pid);
-        painter.drawText(QRect(xStart, y, w, barH), Qt::AlignCenter, label);
+        if (w > 25)
+        {
+            QString label;
 
-        // Time ticks below bar
-        painter.setPen(Qt::darkGray);
-        painter.drawText(xStart, y + barH + 15, QString::number(seg.start));
-        // if idle exist draw endtime
-        if (hasIdle) {
-            painter.drawText(xEnd - 10, y + barH + 15,
-                             QString::number(seg.end));
+            if (seg.pid == -1)
+                label = "Idle";
+            else
+                label = QString("P%1").arg(seg.pid);
+
+            painter.setPen(Qt::black);
+            painter.drawText(QRect(xStart, y, w, barH),
+                             Qt::AlignCenter,
+                             label);
         }
-    }
-    // the last processes only to avoid dublicate
-    if (!hasIdle) {
-        painter.drawText(segments.last().end * segWidth - 10,
-                         y + barH + 15,
-                         QString::number(segments.last().end));
+
+        // time ticks below bar
+        painter.setPen(Qt::darkGray);
+
+        painter.drawText(xStart,y + barH + 15,QString::number(seg.start));
+
+        // draw end time only for last segment
+        if (i == segments.size() - 1)
+            painter.drawText(xEnd - 10, y + barH + 15,QString::number(seg.end));
     }
 }
