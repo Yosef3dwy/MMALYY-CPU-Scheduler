@@ -38,13 +38,13 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="0">
-        <widget class="QSpinBox" name="spinBox_burstTime"/>
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="lineEdit_burstTime"/>
        </item>
        <item row="1" column="4">
-        <widget class="QSpinBox" name="spinBox_priority"/>
+        <widget class="QLineEdit" name="lineEdit_priority"/>
        </item>
-       <item row="0" column="0">
+       <item row="0" column="1">
         <widget class="QLabel" name="label_2">
          <property name="text">
           <string>Burst Time</string>
@@ -58,10 +58,11 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="1">
-        <widget class="QSpinBox" name="spinBox_arrivalTime"/>
+       <item row="1" column="0">
+        <widget class="QLineEdit" name="lineEdit_arrivalTime"/>
+        
        </item>
-       <item row="0" column="1">
+       <item row="0" column="0">
         <widget class="QLabel" name="label">
          <property name="text">
           <string>Arrival Time</string>
@@ -82,7 +83,7 @@
         </widget>
        </item>
        <item row="1" column="2">
-        <widget class="QSpinBox" name="spinBox_quantum"/>
+        <widget class="QLineEdit" name="lineEdit_quantum"/>
        </item>
       </layout>
      </widget>
@@ -400,4 +401,5 @@
   <buttongroup name="buttonGroup"/>
   <buttongroup name="buttonGroup_2"/>
  </buttongroups>
+ 
 </ui>
