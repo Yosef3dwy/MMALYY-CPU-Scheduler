@@ -76,11 +76,23 @@ void MainWindow::on_btn_addProcess_clicked()
     if (ui->rb_priority->isChecked())
     {
         pri = ui->lineEdit_priority->text().toInt(&priorityOk);
-        if (!priorityOk)
+        if (!priorityOk || pri<0)
         {
-            QMessageBox::warning(this, "Error", "Priority must be a valid number");
+            QMessageBox::warning(this, "Error", "Priority must be >= 0");
             return;
         }
+    }
+
+    if (ui->rb_roundRobin->isChecked())
+    {
+        bool ok;
+        float q = ui->lineEdit_quantum->text().toFloat(&ok);
+        if (!ok || q <= 0)
+        {
+            QMessageBox::warning(this, "Error", "Quantum must be > 0");
+            return;
+        }
+        QTime = q;
     }
 
     Process p;
@@ -128,19 +140,6 @@ void MainWindow::on_btn_start_clicked()
     ui->chk_preemptive->setEnabled(false);
     ui->rb_modeLive->setEnabled(false);
     ui->rb_modeExistingOnly->setEnabled(false);
-
-
-    if (ui->rb_roundRobin->isChecked())
-    {
-        bool ok;
-        float q = ui->lineEdit_quantum->text().toFloat(&ok);
-        if (!ok || q <= 0)
-        {
-            QMessageBox::warning(this, "Error", "Quantum must be a > 0");
-            return;
-        }
-        QTime = q;
-    }
 
     if (ui->rb_modeExistingOnly->isChecked())
     {
