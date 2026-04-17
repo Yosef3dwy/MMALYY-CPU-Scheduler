@@ -38,6 +38,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->rb_roundRobin, &QRadioButton::toggled, this, &MainWindow::updatePriorityInputState);
 
     updatePriorityInputState();
+       ui->lineEdit_arrivalTime->setFocus();
 }
 
 MainWindow::~MainWindow()
@@ -114,6 +115,14 @@ void MainWindow::on_btn_addProcess_clicked()
     jobQueue.push(processes.size() - 1);
 
     updateTable();
+
+    if (ui->rb_roundRobin->isChecked())
+    ui->lineEdit_quantum->setEnabled(false);
+
+      ui->lineEdit_arrivalTime->clear();
+ui->lineEdit_burstTime->clear();
+ui->lineEdit_priority->clear();
+
 }
 
 // button start
@@ -199,6 +208,12 @@ void MainWindow::on_btn_reset_clicked()
     ui->chk_preemptive->setEnabled(true);
     ui->rb_modeLive->setEnabled(true);
     ui->rb_modeExistingOnly->setEnabled(true);
+
+    ui->lineEdit_arrivalTime->clear();
+ui->lineEdit_burstTime->clear();
+ui->lineEdit_priority->clear();
+ui->lineEdit_quantum->clear();
+    ui->lineEdit_arrivalTime->setFocus();
 }
 
 // live mode
