@@ -50,8 +50,8 @@ void GanttChart::paintEvent(QPaintEvent *)
     int barH = 50;
     int y = (height - barH) / 2;
 
-    int segWidth = width() / (maxTime + 1);
-    if (segWidth < 1) segWidth = 1;
+    int rightMargin = 20; // reserve space for last time text
+    int segWidth = (width() - rightMargin) / (maxTime + 1);    if (segWidth < 1) segWidth = 1;
 
     QFont font = painter.font();
     font.setPointSize(9);
@@ -61,8 +61,11 @@ void GanttChart::paintEvent(QPaintEvent *)
     {
         const auto &seg = segments[i];
 
-        int xStart = seg.start * segWidth;
-        int xEnd   = seg.end * segWidth;
+        float startRounded = std::round(seg.start * 100) / 100;
+        float endRounded   = std::round(seg.end * 100) / 100;
+
+        int xStart = startRounded * segWidth;
+        int xEnd   = endRounded * segWidth;
         int w      = xEnd - xStart;
         if (w <= 0) continue;
 
@@ -96,10 +99,14 @@ void GanttChart::paintEvent(QPaintEvent *)
         // time ticks below bar
         painter.setPen(Qt::darkGray);
 
-        painter.drawText(xStart,y + barH + 15,QString::number(seg.start));
-
-        // draw end time only for last segment
+        painter.drawText(xStart, y + barH + 15, QString::number(startRounded, 'f', 1));
+        //show last process completion time
         if (i == segments.size() - 1)
-            painter.drawText(xEnd - 10, y + barH + 15,QString::number(seg.end));
+        {
+            QString endText = QString::number(std::round(seg.end * 10) / 10, 'f', 1);
+            int textWidth = painter.fontMetrics().horizontalAdvance(endText);
+
+            painter.drawText(xEnd - textWidth, y + barH + 15, endText);
+        }
     }
 }
