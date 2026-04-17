@@ -119,7 +119,7 @@ void MainWindow::on_btn_addProcess_clicked()
     if (ui->rb_roundRobin->isChecked())
     ui->lineEdit_quantum->setEnabled(false);
 
-      ui->lineEdit_arrivalTime->clear();
+ ui->lineEdit_arrivalTime->clear();
 ui->lineEdit_burstTime->clear();
 ui->lineEdit_priority->clear();
 
@@ -214,6 +214,7 @@ ui->lineEdit_burstTime->clear();
 ui->lineEdit_priority->clear();
 ui->lineEdit_quantum->clear();
     ui->lineEdit_arrivalTime->setFocus();
+   ui->rb_FCFS->setChecked(true);
 }
 
 // live mode
