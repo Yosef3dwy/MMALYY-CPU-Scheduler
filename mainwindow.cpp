@@ -15,9 +15,9 @@ float r3(float x)
 // Initializes UI components, timer, and default states
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow),
-      jobQueue(CompareArrivalIdx(processes)),
-      priReadyQueue(ComparePriorityIdx(processes)),
-      sjfReadyQueue(CompareBurstIdx(processes))
+    jobQueue(CompareArrivalIdx(processes)),
+    priReadyQueue(ComparePriorityIdx(processes)),
+    sjfReadyQueue(CompareBurstIdx(processes))
 {
 
     ui->setupUi(this);
@@ -38,7 +38,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->rb_roundRobin, &QRadioButton::toggled, this, &MainWindow::updatePriorityInputState);
 
     updatePriorityInputState();
-    ui->lineEdit_arrivalTime->setFocus();
 }
 
 MainWindow::~MainWindow()
@@ -60,15 +59,18 @@ void MainWindow::on_btn_addProcess_clicked()
         QMessageBox::warning(this, "Error", "Burst time must be > 0");
         return;
     }
+
     if (!arrivalOk || arrival < 0)
     {
         QMessageBox::warning(this, "Error", "Arrival time must be >= 0");
         return;
     }
+
     if (arrival < currentTime)
     {
         arrival = currentTime;
     }
+
     int pri = 0;
 
     if (ui->rb_priority->isChecked())
@@ -99,22 +101,14 @@ void MainWindow::on_btn_addProcess_clicked()
     processes.push_back(p);
     jobQueue.push(processes.size() - 1);
 
-    //lock qtime after entering the 1st process
-    if (ui->rb_roundRobin->isChecked())
-    ui->lineEdit_quantum->setEnabled(false);
     updateTable();
-
-    ui->lineEdit_arrivalTime->clear();
-ui->lineEdit_burstTime->clear();
-ui->lineEdit_priority->clear();
-ui->lineEdit_arrivalTime->setFocus();
 }
 
 // button start
 void MainWindow::on_btn_start_clicked()
 {
 
-    if (processes.size() == 0)
+    if (processes.size() == 0 || jobQueue.size() == 0)
     {
         QMessageBox::information(this, "Info", "Add processes first");
         return;
@@ -125,6 +119,7 @@ void MainWindow::on_btn_start_clicked()
     ui->btn_start->setEnabled(false);
     ui->btn_pause->setEnabled(true);
 
+
     // Disable the configuretion buttons
     ui->rb_FCFS->setEnabled(false);
     ui->rb_SJF->setEnabled(false);
@@ -133,6 +128,7 @@ void MainWindow::on_btn_start_clicked()
     ui->chk_preemptive->setEnabled(false);
     ui->rb_modeLive->setEnabled(false);
     ui->rb_modeExistingOnly->setEnabled(false);
+
 
     if (ui->rb_roundRobin->isChecked())
     {
@@ -152,7 +148,7 @@ void MainWindow::on_btn_start_clicked()
     }
     else
     {
-        timer->start((int)(tickTime * 1000)); // automatically call timertick
+        timer->start((int)(tickTime * 1000));  // automatically call timertick
     }
 }
 
@@ -204,13 +200,6 @@ void MainWindow::on_btn_reset_clicked()
     ui->chk_preemptive->setEnabled(true);
     ui->rb_modeLive->setEnabled(true);
     ui->rb_modeExistingOnly->setEnabled(true);
-
-    updatePriorityInputState();
-    ui->lineEdit_arrivalTime->clear();
-ui->lineEdit_burstTime->clear();
-ui->lineEdit_priority->clear();
-ui->lineEdit_quantum->clear();
-    ui->lineEdit_arrivalTime->setFocus();
 }
 
 // live mode
@@ -222,12 +211,10 @@ void MainWindow::runStep()
         jobQueue.pop();
         processes[arrivedIdx].status = "Ready";
 
-        if (ui->rb_FCFS->isChecked() || ui->rb_roundRobin->isChecked())
-        {
+        if (ui->rb_FCFS->isChecked() || ui->rb_roundRobin->isChecked()) {
             readyQueue.push(arrivedIdx);
         }
-        else if (ui->rb_SJF->isChecked())
-        {
+        else if (ui->rb_SJF->isChecked()) {
             sjfReadyQueue.push(arrivedIdx);
 
             // SJF Preemption Check
@@ -239,8 +226,7 @@ void MainWindow::runStep()
                 currentIdx = -1;
             }
         }
-        else if (ui->rb_priority->isChecked())
-        {
+        else if (ui->rb_priority->isChecked()) {
             priReadyQueue.push(arrivedIdx);
 
             // Priority Preemption Check
@@ -257,28 +243,23 @@ void MainWindow::runStep()
     // waiting in ready queue -> running
     if (currentIdx == -1)
     {
-        if ((ui->rb_FCFS->isChecked() || ui->rb_roundRobin->isChecked()) && !readyQueue.empty())
-        {
+        if ((ui->rb_FCFS->isChecked() || ui->rb_roundRobin->isChecked()) && !readyQueue.empty()) {
             currentIdx = readyQueue.front();
             readyQueue.pop();
         }
-        else if (ui->rb_SJF->isChecked() && !sjfReadyQueue.empty())
-        {
+        else if (ui->rb_SJF->isChecked() && !sjfReadyQueue.empty()) {
             currentIdx = sjfReadyQueue.top();
             sjfReadyQueue.pop();
         }
-        else if (ui->rb_priority->isChecked() && !priReadyQueue.empty())
-        {
+        else if (ui->rb_priority->isChecked() && !priReadyQueue.empty()) {
             currentIdx = priReadyQueue.top();
             priReadyQueue.pop();
         }
 
         // If we successfully pulled a process, start it
-        if (currentIdx != -1)
-        {
+        if (currentIdx != -1) {
             processes[currentIdx].status = "Running";
-            if (processes[currentIdx].actualStart == -1)
-            {
+            if (processes[currentIdx].actualStart == -1) {
                 processes[currentIdx].actualStart = currentTime;
             }
             timeOnCPU = 0.0f; // Reset for Round Robin
@@ -315,12 +296,14 @@ void MainWindow::runStep()
             currentIdx = -1;
         }
 
-        // Check for Round Robin Time Slice Expiration
+        // check for round robin time slice expiration
         else if (ui->rb_roundRobin->isChecked() && timeOnCPU >= QTime - 0.00001f)
         {
             processes[currentIdx].status = "Ready";
-            // pushing new arrivals first
+
+            // push new arrivals BEFORE re-adding current process
             float sliceEnd = r3(currentTime + (float)tickTime);
+
             while (!jobQueue.empty() && processes[jobQueue.top()].arrival <= sliceEnd)
             {
                 int arrivedIdx = jobQueue.top();
@@ -328,9 +311,18 @@ void MainWindow::runStep()
                 processes[arrivedIdx].status = "Ready";
                 readyQueue.push(arrivedIdx);
             }
+
             readyQueue.push(currentIdx);
             currentIdx = -1;
         }
+    }
+    // CPU is idle (no process running)
+    if (currentIdx == -1 && noCompletedProcesses < processes.size())
+    {
+        float sliceStart = currentTime;
+        float sliceEnd = r3(currentTime + (float)tickTime);
+
+        ganttChart->updateActiveProcess(-1, sliceStart, sliceEnd);
     }
     // update time after check arrivals
     currentTime = r3(currentTime + (float)tickTime);
@@ -434,8 +426,7 @@ void MainWindow::calculateAverages()
     }
 }
 
-void MainWindow::updatePriorityInputState()
-{
+void MainWindow::updatePriorityInputState() {
 
     if (ui->rb_priority->isChecked())
     {
